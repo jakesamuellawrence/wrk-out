@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class User(models.Model):
     UserID = models.AutoField(primary_key=True)
-    SavedWorkouts = models.ManyToManyField('Workout', related_name='%(class)s_requests_created')
+    SavedWorkouts = models.ManyToManyField('Workout', related_name='%(class)sSaved')
     LikedWorkouts = models.ManyToManyField('Workout')
     LikedExercises = models.ManyToManyField('Exercise')
     Username = models.CharField(max_length=30)
