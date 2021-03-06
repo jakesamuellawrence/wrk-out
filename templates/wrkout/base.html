@@ -1,12 +1,40 @@
+<!--
+    Expects as context:
+    User - currently logged in built-in django user object
+    UserProfile - UserProfile linked with currently logged in user
+-->
+
 <!DOCTYPE html>
 {% load staticfiles %}
 
 <html>
     <head>
-        <title>Test</title>
+        <link rel="stylesheet" href="{% static 'wrkout/style.css' %}" />
+        <title>
+            Wrkout - 
+            {% block title_block %}
+                Home
+            {% endblock %}
+        </title>
     </head>
 
     <body>
-        Testy test
+        <div id="header">
+            {% block header_block %}
+                Welcome to Wrkout!
+            {% endblock %}
+        </div>
+
+        <span id="sidebar">
+            {% block sidebar_block %}
+                SideBar
+            {% endblock %}
+        </span>
+
+        <span id="content">
+            {% block content_block %}
+                Content!
+            {% endblock %}
+        </span>
     </body>
 </html>

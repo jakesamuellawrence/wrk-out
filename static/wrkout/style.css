@@ -1,0 +1,14 @@
+#header {
+    font-size: larger;
+    height: 20%;
+    outline: auto;
+}
+
+#sidebar {
+    outline: auto;
+    width: 100px;
+}
+
+#content {
+    outline: auto;
+}
