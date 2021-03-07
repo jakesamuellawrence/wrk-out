@@ -33,20 +33,27 @@
                     <button onclick="alert('not yet implemented!');">Log In</button>
                     <button onclick="alert('not yet implemented!');">Register</button>
                 {% endif %}
-
             {% endblock %}
         </div>
 
-        <span id="sidebar">
-            {% block sidebar_block %}
-                SideBar
-            {% endblock %}
-        </span>
+        <div id="sidebar">
+            {% url 'wrkout:test' as test %}
+            {% url 'wrkout:test2' as test2 %}
+            <h2>Browse By:</h2>
+            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Popular Workouts</b> <br />
+            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Workouts</b> <br />
+            <b {% if request.path == test %} class="selected" {% else %} class="unselected" {% endif %}>Popular Exercises</b> <br />
+            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Exercises</b> <br />
+            
+            <h2>Create New:</h2>
+            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Workout</b> <br />
+            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Exercise</b> <br />
+        </div>
 
-        <span id="content">
+        <div id="content">
             {% block content_block %}
                 Content!
             {% endblock %}
-        </span>
+        </div>
     </body>
 </html>

@@ -1,13 +1,16 @@
 #header {
     font-size: larger;
-    outline: auto;
+    background-color: burlywood;
 }
 
 #sidebar {
-    outline: auto;
-    width: 100px;
+    background-color: blanchedalmond;
+}
+
+.selected {
+    background-color: grey;
 }
 
 #content {
-    outline: auto;
+    background-color: cadetblue;
 }
