@@ -11,6 +11,18 @@
     background-color: grey;
 }
 
+.exercise-info-box {
+    background-color: grey;
+}
+
+.positive-likes {
+    color: green;
+}
+
+.negative-likes {
+    color: red;
+}
+
 #content {
     background-color: cadetblue;
 }

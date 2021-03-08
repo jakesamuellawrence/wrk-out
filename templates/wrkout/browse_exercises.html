@@ -1,0 +1,41 @@
+<!--
+    Expects to recieve as context:
+     - exercises - an ordered query_set of Exercies, either in new-ness or popularity order
+-->
+
+{% extends 'wrkout/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Browse
+{% endblock %}
+
+{% block content_block %}
+    {% for exercise in exercises %}
+        <div class="exercise-info-box">
+            <h3><a href="/fill this in later">{{ exercise.Name }}</a></h3>
+        
+            Difficulty:
+            {% for i in '12345'|make_list %}
+                {% if forloop.counter <= exercise.Difficulty %}
+                    <img src="{% static 'wrkout/images/star_filled.png' %}"/>
+                {% else %}
+                    <img src="{% static 'wrkout/images/star_unfilled.png' %}"/>
+                {% endif %}
+            {% endfor %}
+
+            Net likes:
+            {% if exercise.Likes >= 0 %}
+                <b class="positive-likes">{{exercise.Likes}}</b>
+            {% else %}
+                <b class="negative-likes">{{exercise.Likes}}</b>
+            {% endif %}
+
+            Created By:
+            <a href="/fill in later">{{ exercise.CreatorID.Username }}</a>
+
+            Created On: {{ exercise.Date }}
+
+        </div>
+    {% endfor %}
+{% endblock %}
