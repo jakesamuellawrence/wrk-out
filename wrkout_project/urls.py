@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from wrkout import views
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', views.test_view, name="base"),
     path('admin/', admin.site.urls),
     path('wrkout/', include('wrkout.urls')),
-]
+] 

@@ -1,5 +1,6 @@
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from wrkout.models import User, Exercise, Workout
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
