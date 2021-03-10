@@ -46,6 +46,39 @@ def test_view(request):
         'wrkout/browse.html',
         {'results': [myFirstWorkout, reallyLongName, legDay]}
     )
+
+def show_workout(request, category_name_slug):
+    context_dict = {}
+
+    try:
+        workout = Workout.objects.get(slug=category_name_slug)
+        exercises = Exercise.objects.filter(workout=workout)
+
+        context_dict['exercises'] = exercises
+        context_dict['workout'] = workout
+        
+    except Workout.DoesNotExist:
+        context_dict['workout'] = None
+        context_dict['exercises'] = None
+
+    if request.method == 'POST':
+        if request.method == 'POST':
+            query = request.POST['query'].strip()
+
+            if query:
+                context_dict['result_list'] = run_query(query)
+
+    return render(request, 'rango/workout.html', context_dict)
+    
+def browse_workouts(request):
+    context_dict['workouts'] = workout_list
+    response = render(request, 'rango/browse.html', context=context_dict)
+    return response
+    
+def browse_exercises(request):
+    context_dict['exercises'] = exercise_list
+    response = render(request, 'rango/browse.html', context=context_dict)
+    return response
     
 def register(request):
     registered = False
@@ -113,7 +146,7 @@ def create_workout(request, category_name_slug):
                 page.workout = workout
                 page.views = 0
                 page.save()
-                return redirect(reverse('wrkout:show_category',kwargs={'category_name_slug':category_name_slug}))
+                return redirect(reverse('wrkout:show_workout',kwargs={'category_name_slug':category_name_slug}))
         else:
             print(form.errors)
     context_dict = {'form': form, 'workout': workout}
