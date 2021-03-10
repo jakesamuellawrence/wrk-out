@@ -43,8 +43,8 @@ def test_view(request):
     )[0]
 
     return render(request, 
-        'wrkout/browse_exercises.html',
-        {'exercises': [myFirstWorkout, reallyLongName, legDay]}
+        'wrkout/browse.html',
+        {'results': [myFirstWorkout, reallyLongName, legDay]}
     )
     
 def register(request):

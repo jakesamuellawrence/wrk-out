@@ -1,6 +1,6 @@
 <!--
     Expects to recieve as context:
-     - exercises - an ordered query_set of Exercies, either in new-ness or popularity order
+     - results - an ordered list of either Exercises or Workouts, either in new-ness or popularity order
 -->
 
 {% extends 'wrkout/base.html' %}
@@ -11,13 +11,13 @@
 {% endblock %}
 
 {% block content_block %}
-    {% for exercise in exercises %}
-        <div class="exercise-info-box">
-            <h3><a href="/fill this in later">{{ exercise.Name }}</a></h3>
+    {% for result in results %}
+        <div class="result-info-box">
+            <h3><a href="/fill this in later">{{ result.Name }}</a></h3>
         
             Difficulty:
             {% for i in '12345'|make_list %}
-                {% if forloop.counter <= exercise.Difficulty %}
+                {% if forloop.counter <= result.Difficulty %}
                     <img src="{% static 'wrkout/images/star_filled.png' %}"/>
                 {% else %}
                     <img src="{% static 'wrkout/images/star_unfilled.png' %}"/>
@@ -25,16 +25,16 @@
             {% endfor %}
 
             Net likes:
-            {% if exercise.Likes >= 0 %}
-                <b class="positive-likes">{{exercise.Likes}}</b>
+            {% if result.Likes >= 0 %}
+                <b class="positive-likes">{{result.Likes}}</b>
             {% else %}
-                <b class="negative-likes">{{exercise.Likes}}</b>
+                <b class="negative-likes">{{result.Likes}}</b>
             {% endif %}
 
             Created By:
-            <a href="/fill in later">{{ exercise.CreatorID.Username }}</a>
+            <a href="/fill in later">{{ result.CreatorID.Username }}</a>
 
-            Created On: {{ exercise.Date }}
+            Created On: {{ result.Date }}
 
         </div>
     {% endfor %}
