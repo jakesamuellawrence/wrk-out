@@ -1,18 +1,86 @@
+/* Define Variables */
+:root {
+    --header-height: 75px;
+    --sidebar-width: 250px;
+    --login-buttons-width: 250px; 
+}
+
+* {
+    margin: 0;
+}
+
 #header {
     font-size: larger;
     background-color: burlywood;
+    position: fixed;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 0;
+    height: var(--header-height);
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    align-items: center;
+}
+
+#header * {
+    margin: 5px;
+}
+
+#logo {
+    width: var(--sidebar-width);
+    margin: auto;
+}
+
+#search-form {
+    flex:1;
+    display: flex;
+}
+
+#search-button {
+    margin-left: 0;
+}
+
+#search-bar {
+    flex: 1;
+    margin-right: 0;
+}
+
+#profile-pic {
+    height: 100%;
 }
 
 #sidebar {
     background-color: blanchedalmond;
+    position: fixed;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0;
+    top: var(--header-height);
+    width: var(--sidebar-width);
+    height: calc(100% - var(--header-height));
+}
+
+#content {
+    background-color: cadetblue;
+    position: fixed;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0;
+    top: var(--header-height);
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    height: calc(100% - var(--header-height));
+    overflow-y: scroll;
 }
 
 .selected {
     background-color: grey;
 }
 
-.exercise-info-box {
+.result-info-box {
     background-color: grey;
+    margin: 5px;
 }
 
 .positive-likes {
@@ -21,8 +89,4 @@
 
 .negative-likes {
     color: red;
-}
-
-#content {
-    background-color: cadetblue;
 }

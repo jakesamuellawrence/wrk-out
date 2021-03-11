@@ -15,20 +15,21 @@
     <body>
         <div id="header">
             {% block header_block %}
-                <img id="logo" src="{% static 'wrkout/images/logo.png' %}">
 
+                <img id="logo" src="{% static 'wrkout/images/logo.png' %}">
+                
                 <form id="search-form" method="get" onsubmit="alert('Not implemented yet!');">
                     <input id="search-bar" type="text" placeholder="Search for exercises or workouts" />
-                    <button type="submit">
-                        <img src="{% static 'wrkout/images/search_icon.png' %}" />
+                    <button id="search-button" type="submit">
+                        <!-- <img src="{% static 'wrkout/images/search_icon.png' %}" /> -->
+                        Search
                     </button>
                 </form>
 
-                
                 {% if user.is_authenticated %}
                     <button onclick="alert('not yet implemented!');">Log Out</button>
                     <!--- Get UserProfile associated with current User, and display their profile picture -->
-                    <img src="{% static 'wrkout/images/default_pfp.png' %}" />
+                    <img id="profile-pic" src="{% static 'wrkout/images/default_pfp.png' %}" />
                 {% else %}
                     <button onclick="alert('not yet implemented!');">Log In</button>
                     <button onclick="alert('not yet implemented!');">Register</button>
