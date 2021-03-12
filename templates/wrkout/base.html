@@ -41,14 +41,14 @@
             {% url 'wrkout:test' as test %}
             {% url 'wrkout:test2' as test2 %}
             <h2>Browse By:</h2>
-            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Popular Workouts</b> <br />
-            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Workouts</b> <br />
-            <b {% if request.path == test %} class="selected" {% else %} class="unselected" {% endif %}>Popular Exercises</b> <br />
-            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Exercises</b> <br />
+            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Popular Workouts</span> <br />
+            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Workouts</span> <br />
+            <span {% if request.path == test %} class="selected" {% else %} class="unselected" {% endif %}>Popular Exercises</span> <br />
+            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Exercises</span> <br />
             
             <h2>Create New:</h2>
-            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Workout</b> <br />
-            <b {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Exercise</b> <br />
+            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Workout</span> <br />
+            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Exercise</span> <br />
         </div>
 
         <div id="content">

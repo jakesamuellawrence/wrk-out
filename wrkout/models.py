@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.template.defaultfilters import slugify
 
 class UserProfile(models.Model):
     UserAccount = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -13,7 +14,7 @@ class UserProfile(models.Model):
     ProfilePicture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
-        return self.UserProfile.username
+        return self.UserAccount.username
 
     def save(self, *args, **kwargs):
         self.Slug = slugify(self.UserAccount.username)

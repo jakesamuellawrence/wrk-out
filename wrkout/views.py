@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from wrkout.models import User, Exercise, Workout
+from wrkout.models import User, Exercise, Workout, UserProfile
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,41 +10,22 @@ from django.contrib.auth.decorators import login_required
 
 def test_view(request):
     creativeUser = User.objects.get_or_create(
-        Username="CreativeUserNameHere"
+        username="CreativeUserNameHere"
     )[0]
-    myFirstWorkout = Exercise.objects.get_or_create(
-        CreatorID=creativeUser,
+    creativeUserProfile = UserProfile.objects.get_or_create(
+        UserAccount=creativeUser
+    )[0]
+    myFirstWorkout = Workout.objects.get_or_create(
+        CreatorID=creativeUserProfile,
         Name='My First Workout',
         Difficulty=1,
         Date=datetime.today().strftime('%Y-%m-%d'),
         Likes=12
     )[0]
 
-    captainMysterious = User.objects.get_or_create(
-        Username="CaptainMysterious"
-    )[0]
-    reallyLongName = Exercise.objects.get_or_create(
-        CreatorID=captainMysterious,
-        Name='This Workout has a really really really really really really really really really really really really long name',
-        Difficulty=2,
-        Date="2021-01-27",
-        Likes=-17
-    )[0]
-
-    muscleMan = User.objects.get_or_create(
-        Username="xXMuscleManXx",
-    )[0]
-    legDay = Exercise.objects.get_or_create(
-        CreatorID=muscleMan,
-        Name="Leg Day Xtreme",
-        Difficulty=5,
-        Date="2021-03-01",
-        Likes=104
-    )[0]
-
     return render(request, 
         'wrkout/browse.html',
-        {'results': [myFirstWorkout, reallyLongName, legDay]}
+        {'results': [myFirstWorkout]}
     )
 
 def show_workout(request, category_name_slug):
