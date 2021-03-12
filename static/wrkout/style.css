@@ -6,6 +6,7 @@
     --gray6: #F2F2F2;
     --gray5: #E0E0E0;
     --gray4: #BDBDBD;
+    --gray1: #333333;
     --blue1: #2F80ED;
     --green2: #27AE60;
     --red1: #EB5757; 
@@ -20,9 +21,16 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-a {
+#content a {
     color: var(--blue1);
     text-decoration: none;
+}
+
+button {
+    background-color: var(--gray5);
+    border: 1px solid var(--gray1);
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 #header {
@@ -31,7 +39,7 @@ a {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     position: fixed;
     box-sizing: border-box;
-    padding: 5px;
+    padding: 10px;
     margin: 0;
     height: var(--header-height);
     width: 100%;
@@ -40,7 +48,7 @@ a {
 }
 
 #header * {
-    margin: 5px;
+    margin: 10px;
 }
 
 #logo {
@@ -53,22 +61,32 @@ a {
     display: flex;
 }
 
-#search-button {
-    margin-left: 0;
-}
-
 #search-bar {
     flex: 1;
     margin-right: 0;
+    border: 1px solid var(--gray1);
+}
+
+#search-button {
+    margin-left: 0;
+    padding: 0;
+    border: 1px solid var(--gray1);
+    border-left: none;
 }
 
 #profile-pic {
     height: 100%;
+    border: 1px solid var(--gray1);
+}
+#profile-pic img {
+    height: 100%;
+    margin: 0;
 }
 
 #sidebar {
     z-index: 1;
     background-color: var(--gray6);
+    border: 1px solid var(--gray5);
     position: fixed;
     box-sizing: border-box;
     padding: 10px;
@@ -76,6 +94,22 @@ a {
     top: var(--header-height);
     width: var(--sidebar-width);
     height: calc(100% - var(--header-height));
+}
+
+#sidebar h2 {
+    margin: 10px;
+    left: 10%;
+}
+
+#sidebar a {
+    display: block;
+    margin-left: 20%;
+    width: 100%;
+    
+    padding: 3px;
+
+    color: black;
+    text-decoration: none;
 }
 
 #content {
@@ -90,6 +124,31 @@ a {
     width: calc(100% - var(--sidebar-width));
     height: calc(100% - var(--header-height));
     overflow-y: scroll;
+}
+
+.result-info-box {
+    padding: 10px;
+}
+
+.result-info-box h3 {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.result-details {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+
+
+.result-details div {
+    /* flex: 2; */
+    margin: 0 10px;
+}
+
+.result-details div.result-difficulty {
+    margin-left: 0;
 }
 
 .selected {

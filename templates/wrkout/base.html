@@ -16,20 +16,25 @@
         <div id="header">
             {% block header_block %}
 
-                <img id="logo" src="{% static 'wrkout/images/logo.png' %}">
+                <a href="/to/do/later">
+                    <img id="logo" src="{% static 'wrkout/images/logo.png' %}">
+                </a>
                 
                 <form id="search-form" method="get" onsubmit="alert('Not implemented yet!');">
-                    <input id="search-bar" type="text" placeholder="Search for exercises or workouts" />
-                    <button id="search-button" type="submit">
-                        <!-- <img src="{% static 'wrkout/images/search_icon.png' %}" /> -->
-                        Search
-                    </button>
+                    <input id="search-bar" type="text" name="search-key" placeholder="Search for exercises or workouts" />
+                    <!-- <button id="search-button" type="submit">
+                        <img src="{% static 'wrkout/images/search_icon.png' %}" />
+                    </button> -->
+                    <input id="search-button" type="image" src="{% static 'wrkout/images/search_icon.png' %}" alt="Submit" />
                 </form>
+
 
                 {% if user.is_authenticated %}
                     <button onclick="alert('not yet implemented!');">Log Out</button>
                     <!--- Get UserProfile associated with current User, and display their profile picture -->
-                    <img id="profile-pic" src="{% static 'wrkout/images/default_pfp.png' %}" />
+                    <a id="profile-pic" href="/to/do">
+                        <img src="{% static 'wrkout/images/default_pfp.png' %}" />
+                    </a>
                 {% else %}
                     <button onclick="alert('not yet implemented!');">Log In</button>
                     <button onclick="alert('not yet implemented!');">Register</button>
@@ -41,14 +46,14 @@
             {% url 'wrkout:test' as test %}
             {% url 'wrkout:test2' as test2 %}
             <h2>Browse By:</h2>
-            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Popular Workouts</span> <br />
-            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Workouts</span> <br />
-            <span {% if request.path == test %} class="selected" {% else %} class="unselected" {% endif %}>Popular Exercises</span> <br />
-            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Exercises</span> <br />
+            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %} href="/test/">Popular Workouts</a> 
+            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Workouts</a>
+            <a {% if request.path == test %} class="selected" {% else %} class="unselected" {% endif %}>Popular Exercises</a>
+            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Exercises</a>
             
             <h2>Create New:</h2>
-            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Workout</span> <br />
-            <span {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Exercise</span> <br />
+            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Workout</a> 
+            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Exercise</a>
         </div>
 
         <div id="content">
