@@ -49,14 +49,14 @@ def browse_workouts(request):
     context_dict = {}
     context_dict['workouts'] = workout_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
-    return response
+    return render(request, 'wrkout/browse.html', context_dict)
     
 def browse_exercises(request):
     exercise_list = Exercise.objects.order_by('-likes')
     context_dict = {}
     context_dict['exercises'] = exercise_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
-    return response
+    return render(request, 'wrkout/browse.html', context_dict)
     
 def register(request):
     registered = False
