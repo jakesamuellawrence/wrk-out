@@ -1,5 +1,5 @@
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wrkout.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'wrkout_project.settings')
 
 import django
 django.setup()
