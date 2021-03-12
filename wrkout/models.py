@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.template.defaultfilters import slugify
 
 class UserProfile(models.Model):
     UserAccount = models.OneToOneField(User, on_delete=models.CASCADE)
