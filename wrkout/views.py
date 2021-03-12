@@ -42,21 +42,21 @@ def show_workout(request, category_name_slug):
         context_dict['workout'] = None
         context_dict['exercises'] = None
 
-    return render(request, 'wrkout/workout.html', context_dict)
+    return render(request, 'wrkout/workout.html', context_dict['workout'])
     
 def browse_workouts(request):
     workout_list = Workout.objects.order_by('-likes')
     context_dict = {}
     context_dict['workouts'] = workout_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
-    return render(request, 'wrkout/browse.html', context_dict)
+    return response
     
 def browse_exercises(request):
     exercise_list = Exercise.objects.order_by('-likes')
     context_dict = {}
     context_dict['exercises'] = exercise_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
-    return render(request, 'wrkout/browse.html', context_dict)
+    return response
     
 def register(request):
     registered = False
