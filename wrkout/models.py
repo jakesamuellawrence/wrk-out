@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     ProfilePicture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
-        return self.UserProfile.username
+        return self.UserAccount.username
 
     def save(self, *args, **kwargs):
         self.Slug = slugify(self.UserAccount.username)
