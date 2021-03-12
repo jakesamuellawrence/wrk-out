@@ -2,23 +2,39 @@
 :root {
     --header-height: 75px;
     --sidebar-width: 250px;
-    --login-buttons-width: 250px; 
+
+    --gray6: #F2F2F2;
+    --gray5: #E0E0E0;
+    --gray4: #BDBDBD;
+    --blue1: #2F80ED;
+    --green2: #27AE60;
+    --red1: #EB5757; 
+}
+
+body {
+    margin: 0;
+    padding: 0;
 }
 
 * {
-    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    color: var(--blue1);
+    text-decoration: none;
 }
 
 #header {
-    font-size: larger;
-    background-color: burlywood;
+    z-index: 3;
+    background-color: var(--gray6);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     position: fixed;
     box-sizing: border-box;
     padding: 5px;
     margin: 0;
     height: var(--header-height);
     width: 100%;
-    overflow-y: scroll;
     display: flex;
     align-items: center;
 }
@@ -51,7 +67,8 @@
 }
 
 #sidebar {
-    background-color: blanchedalmond;
+    z-index: 1;
+    background-color: var(--gray6);
     position: fixed;
     box-sizing: border-box;
     padding: 10px;
@@ -62,7 +79,8 @@
 }
 
 #content {
-    background-color: cadetblue;
+    z-index: 2;
+    background-color: white;
     position: fixed;
     box-sizing: border-box;
     padding: 10px;
@@ -75,18 +93,18 @@
 }
 
 .selected {
-    background-color: grey;
+    background-color: var(--gray4);
 }
 
 .result-info-box {
-    background-color: grey;
+    background-color: var(--gray6);
     margin: 5px;
 }
 
 .positive-likes {
-    color: green;
+    color: var(--green2);
 }
 
 .negative-likes {
-    color: red;
+    color: var(--red1);
 }
