@@ -25,7 +25,7 @@ def test_view(request):
 
     return render(request, 
         'wrkout/browse.html',
-        {'results': [myFirstWorkout]}
+        {'results': [myFirstWorkout]*100}
     )
 
 def show_workout(request, category_name_slug):

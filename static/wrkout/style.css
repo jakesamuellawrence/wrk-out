@@ -127,6 +127,9 @@ button {
 }
 
 .result-info-box {
+    background-color: var(--gray6);
+    margin: 5px;
+    margin-bottom: 10px;
     padding: 10px;
 }
 
@@ -153,11 +156,6 @@ button {
 
 .selected {
     background-color: var(--gray4);
-}
-
-.result-info-box {
-    background-color: var(--gray6);
-    margin: 5px;
 }
 
 .positive-likes {

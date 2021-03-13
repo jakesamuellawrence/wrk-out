@@ -16,7 +16,7 @@
         <div id="header">
             {% block header_block %}
 
-                <a href="/to/do/later">
+                <a href="{% url 'wrkout:home' %}">
                     <img id="logo" src="{% static 'wrkout/images/logo.png' %}">
                 </a>
                 
@@ -43,17 +43,27 @@
         </div>
 
         <div id="sidebar">
-            {% url 'wrkout:test' as test %}
-            {% url 'wrkout:test2' as test2 %}
+            {% url 'wrkout:workouts_popular' as workouts_popular %}
+            {% url 'wrkout:workouts_new' as workouts_new %}
+            {% url 'wrkout:exercises_popular' as exercises_popular %}
+            {% url 'wrkout:exercises_new' as exercises_new %}
             <h2>Browse By:</h2>
-            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %} href="/test/">Popular Workouts</a> 
-            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Workouts</a>
-            <a {% if request.path == test %} class="selected" {% else %} class="unselected" {% endif %}>Popular Exercises</a>
-            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>New Exercises</a>
+            <a  {% if request.path == workouts_popular %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ workouts_popular }}">Popular Workouts</a> 
+            <a  {% if request.path == workouts_new %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ workouts_new }}">New Workouts</a> 
+            <a  {% if request.path == exercises_popular %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ exercises_popular }}">Popular Exercises</a> 
+            <a  {% if request.path == exercises_new %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ exercises_new }}">New Exercises</a>
             
+            {% url 'wrkout:create_workout' as create_workout %}
+            {% url 'wrkout:create_exercise' as create_exercise %}
             <h2>Create New:</h2>
-            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Workout</a> 
-            <a {% if request.path == test2 %} class="selected" {% else %} class="unselected" {% endif %}>Exercise</a>
+            <a  {% if request.path == create_workout %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ create_workout }}">Workout</a>
+            <a  {% if request.path == create_exercise %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ create_exercise }}">Exercise</a>
         </div>
 
         <div id="content">
