@@ -22,7 +22,7 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-#content a {
+a {
     color: var(--blue1);
     text-decoration: none;
 }
@@ -168,32 +168,32 @@ button, input[type="submit"] {
     color: var(--red1);
 }
 
-#register-form p label, #register-form p input, #register-form p span {
+#content form p label, #content form p input, #content form p span {
     display: block;
     width: 100%;
 }
 
-#register-form input {
+#content form input {
     padding: 5px;
     border: 1px solid var(--gray1);
 }
 
-#register-form input[type="file"] {
+#content form input[type="file"] {
     border: none;
 }
 
-#register-form p {
+#content form p {
     width: 100%;
     max-width: 800px;
     padding-right: 60px;
     box-sizing: border-box;
 }
 
-#register-form h1 {
+#content form h1 {
     margin: 10px;
 }
 
-#register-form p, #register-submit {
+#content form p, #content form input[type="submit"] {
     margin-left: 30px;
 }
 

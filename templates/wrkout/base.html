@@ -30,14 +30,17 @@
 
 
                 {% if user.is_authenticated %}
-                    <button onclick="alert('not yet implemented!');">Log Out</button>
+                    <!-- <button onclick="alert('not yet implemented!');">Log Out</button> -->
+                    <a href="/still/to/implement">Log Out</a>
                     <!--- Get UserProfile associated with current User, and display their profile picture -->
                     <a id="profile-pic" href="/to/do">
                         <img src="{% static 'wrkout/images/default_pfp.png' %}" />
                     </a>
                 {% else %}
-                    <button onclick="alert('not yet implemented!');">Log In</button>
-                    <button onclick="alert('not yet implemented!');">Register</button>
+                    <!-- <button onclick="alert('not yet implemented!');">Log In</button>
+                    <button onclick="alert('not yet implemented!');">Register</button> -->
+                    <a href="{% url 'wrkout:login' %}">Log In</a>
+                    <a href="{% url 'wrkout:register' %}">Register</a>
                 {% endif %}
             {% endblock %}
         </div>
