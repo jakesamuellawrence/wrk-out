@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from wrkout.models import User, Exercise, Workout, UserProfile
+from wrkout.forms import UserForm, ExerciseForm, WorkoutForm, UserProfileForm 
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -9,24 +10,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def test_view(request):
-    creativeUser = User.objects.get_or_create(
-        username="CreativeUserNameHere"
-    )[0]
-    creativeUserProfile = UserProfile.objects.get_or_create(
-        UserAccount=creativeUser
-    )[0]
-    myFirstWorkout = Workout.objects.get_or_create(
-        CreatorID=creativeUserProfile,
-        Name='My First Workout',
-        Difficulty=1,
-        Date=datetime.today().strftime('%Y-%m-%d'),
-        Likes=12
-    )[0]
-
-    return render(request, 
-        'wrkout/browse.html',
-        {'results': [myFirstWorkout]*100}
-    )
+    return render(request, 'wrkout/register.html', {'user_form': UserForm(), 'profile_form': UserProfileForm()})
 
 def show_workout(request, category_name_slug):
     context_dict = {}

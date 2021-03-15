@@ -5,22 +5,22 @@ from wrkout.models import UserProfile, Set, Exercise, Workout
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('ID', 'picture',)
+        fields = ('ProfilePicture',)
 
-class WorkoutForms(forms.ModelForm):
+class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        fields = ('ID', 'name', 'description', )
+        fields = ('Name', 'Description', )
         
 class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
-        fields = ('ID', 'name', 'difficulty', 'description', )
+        fields = ('Name', 'Difficulty', 'Description', )
         
 class SetForm(forms.ModelForm):
     class Meta:
         model = Set
-        fields = ('ExerciseID', 'No. of reps', )
+        fields = ('ExerciseID', 'NoOfReps', )
         
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

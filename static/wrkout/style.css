@@ -3,6 +3,7 @@
     --header-height: 75px;
     --sidebar-width: 250px;
 
+    --gray7: #F9F9F9;
     --gray6: #F2F2F2;
     --gray5: #E0E0E0;
     --gray4: #BDBDBD;
@@ -26,7 +27,7 @@ body {
     text-decoration: none;
 }
 
-button {
+button, input[type="submit"] {
     background-color: var(--gray5);
     border: 1px solid var(--gray1);
     padding-top: 4px;
@@ -64,6 +65,7 @@ button {
 #search-bar {
     flex: 1;
     margin-right: 0;
+    padding: 5px;
     border: 1px solid var(--gray1);
 }
 
@@ -85,6 +87,7 @@ button {
 
 #sidebar {
     z-index: 1;
+    overflow-x: hidden;
     background-color: var(--gray6);
     border: 1px solid var(--gray5);
     position: fixed;
@@ -114,7 +117,6 @@ button {
 
 #content {
     z-index: 2;
-    background-color: white;
     position: fixed;
     box-sizing: border-box;
     padding: 10px;
@@ -164,4 +166,46 @@ button {
 
 .negative-likes {
     color: var(--red1);
+}
+
+#register-form p label, #register-form p input, #register-form p span {
+    display: block;
+    width: 100%;
+}
+
+#register-form input {
+    padding: 5px;
+    border: 1px solid var(--gray1);
+}
+
+#register-form input[type="file"] {
+    border: none;
+}
+
+#register-form p {
+    width: 100%;
+    max-width: 800px;
+    padding-right: 60px;
+    box-sizing: border-box;
+}
+
+#register-form h1 {
+    margin: 10px;
+}
+
+#register-form p, #register-submit {
+    margin-left: 30px;
+}
+
+.helptext {
+    font-size: 75%;
+    color: var(--red1);
+}
+
+hr {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 2px;
+    background-color: var(--gray5);
+    border: none;
 }
