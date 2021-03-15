@@ -28,15 +28,29 @@ def show_workout(request, category_name_slug):
 
     return render(request, 'wrkout/workout.html', context_dict['workout'])
     
-def browse_workouts(request):
+def browse_popular_workouts(request):
     workout_list = Workout.objects.order_by('-Likes')
     context_dict = {}
     context_dict['results'] = workout_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
     return response
     
-def browse_exercises(request):
+def browse_popular_exercises(request):
     exercise_list = Exercise.objects.order_by('-Likes')
+    context_dict = {}
+    context_dict['results'] = exercise_list
+    response = render(request, 'wrkout/browse.html', context=context_dict)
+    return response
+    
+def browse_newest_workouts(request):
+    workout_list = Workout.objects.order_by('Date')
+    context_dict = {}
+    context_dict['results'] = workout_list
+    response = render(request, 'wrkout/browse.html', context=context_dict)
+    return response
+    
+def browse_newest_exercises(request):
+    exercise_list = Exercise.objects.order_by('Date')
     context_dict = {}
     context_dict['results'] = exercise_list
     response = render(request, 'wrkout/browse.html', context=context_dict)

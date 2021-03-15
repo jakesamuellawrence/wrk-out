@@ -16,15 +16,15 @@ urlpatterns = [
     
     path('workouts/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('workouts/browse/', RedirectView.as_view(permanent=True, url="popular")),
-    path('workouts/browse/popular/', views.browse_workouts, name='workouts_popular'),
-    path('workouts/browse/new/', views.browse_workouts, name='workouts_new'),
+    path('workouts/browse/popular/', views.browse_popular_workouts, name='workouts_popular'),
+    path('workouts/browse/new/', views.browse_newest_workouts, name='workouts_new'),
     path('workouts/create/', views.create_workout, name='create_workout'),
     #path('workouts/<workout_name>/', views.show_workout, name='show_workout'),
     
     path('exercises/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('exercises/browse/', RedirectView.as_view(permanent=True, url="popular")),
-    path('exercises/browse/popular/', views.browse_exercises, name='exercises_popular'),
-    path('exercises/browse/new/', views.browse_exercises, name='exercises_new'),
+    path('exercises/browse/popular/', views.browse_popular_exercises, name='exercises_popular'),
+    path('exercises/browse/new/', views.browse_newest_exercises, name='exercises_new'),
     path('exercises/create/', views.create_exercise, name='create_exercise'),
     #path('exercises/<exercise_name>/', views.show_exercise, name='show_exercises')
     
