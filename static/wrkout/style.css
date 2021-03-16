@@ -168,7 +168,7 @@ button, input[type="submit"] {
     color: var(--red1);
 }
 
-#content form p label, #content form p input, #content form p span {
+#content form p label, #content form p input, #content form p span, #content form p textarea {
     display: block;
     width: 100%;
 }
@@ -200,6 +200,10 @@ button, input[type="submit"] {
 .helptext {
     font-size: 75%;
     color: var(--red1);
+}
+
+input[type="number"] {
+    max-width: 2em;
 }
 
 hr {
