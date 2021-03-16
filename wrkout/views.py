@@ -67,7 +67,7 @@ def register(request):
             user.set_password(user.password)
             user.save()
             profile = profile_form.save(commit=False)
-            profile.user = user
+            profile.UserAccount = user
 
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
@@ -91,7 +91,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('wrkout:index'))
+                return redirect(reverse('wrkout:home'))
             else:
                 return HttpResponse("Your Wrkout account is disabled.")
         else:
@@ -103,7 +103,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect(reverse('wrkout:index')) 
+    return redirect(reverse('wrkout:home')) 
     
 @login_required    
 def create_workout(request, category_name_slug):
