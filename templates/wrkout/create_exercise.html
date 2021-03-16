@@ -1,0 +1,20 @@
+<!--
+    Expects as context:
+    exercise_form
+-->
+
+{% extends 'wrkout/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Create Exercise
+{% endblock %}
+
+{% block content_block %}
+    <form id="create-exercise-form" method="POST" action="{% url 'wrkout:create_exercise' %}" enctype="multipart/form-data">
+        <h1>Create a New Exercise:</h1>
+        {% csrf_token %}
+        {{ exercise_form.as_p }}
+        <input id="create-exercise-submit" type="submit" name="submit" value="Create">        
+    </form>
+{% endblock %}
