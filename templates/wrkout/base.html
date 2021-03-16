@@ -60,13 +60,15 @@
             <a  {% if request.path == exercises_new %} class="selected" {% else %} class="unselected" {% endif %} 
                 href="{{ exercises_new }}">New Exercises</a>
             
-            {% url 'wrkout:create_workout' as create_workout %}
-            {% url 'wrkout:create_exercise' as create_exercise %}
-            <h2>Create New:</h2>
-            <a  {% if request.path == create_workout %} class="selected" {% else %} class="unselected" {% endif %} 
-                href="{{ create_workout }}">Workout</a>
-            <a  {% if request.path == create_exercise %} class="selected" {% else %} class="unselected" {% endif %} 
-                href="{{ create_exercise }}">Exercise</a>
+            {% if user.is_authenticated %}
+                {% url 'wrkout:create_workout' as create_workout %}
+                {% url 'wrkout:create_exercise' as create_exercise %}
+                <h2>Create New:</h2>
+                <a  {% if request.path == create_workout %} class="selected" {% else %} class="unselected" {% endif %} 
+                    href="{{ create_workout }}">Workout</a>
+                <a  {% if request.path == create_exercise %} class="selected" {% else %} class="unselected" {% endif %} 
+                    href="{{ create_exercise }}">Exercise</a>
+            {% endif %}
         </div>
 
         <div id="content">
