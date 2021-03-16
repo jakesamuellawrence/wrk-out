@@ -12,11 +12,11 @@ from django.contrib.auth.decorators import login_required
 def test_view(request):
     return render(request, 'wrkout/create_exercise.html', {'exercise_form': ExerciseForm})
 
-def show_workout(request, category_name_slug):
+def show_workout(request, workout_name_slug):
     context_dict = {}
 
     try:
-        workout = Workout.objects.get(slug=category_name_slug)
+        workout = Workout.objects.get(slug=workout_name_slug)
         exercises = Exercise.objects.filter(workout=workout)
 
         context_dict['exercises'] = exercises
@@ -106,47 +106,38 @@ def user_logout(request):
     return redirect(reverse('wrkout:home')) 
     
 @login_required    
-def create_workout(request, category_name_slug):
+def create_workout(request, workout_name_slug):
+    form = WorkoutForm()
+    if request.method == 'POST':
+        form = WorkoutForm(request.POST)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('/wrkout/')
+        else:
+            print(form.errors)
+            
+    return render(request, 'wrkout/create_workout.html', {'form': form})
+    
+@login_required    
+def create_exercise(request, workout_name_slug):
     try:
-        workout = Workout.objects.get(slug=category_name_slug)
+        workout = Workout.objects.get(slug=workout_name_slug)
     except Workout.DoesNotExist:
         workout = None
     if workout is None:
         return redirect('/wrkout/')
-    form = PageForm()
+    form = ExerciseForm()
     if request.method == 'POST':
-        form = PageForm(request.POST)
+        form = ExerciseForm(request.POST)
         if form.is_valid():
             if workout:
-                page = form.save(commit=False)
-                page.workout = workout
-                page.views = 0
-                page.save()
-                return redirect(reverse('wrkout:show_workout',kwargs={'category_name_slug':category_name_slug}))
+                exercise = form.save(commit=False)
+                exercise.workout = workout
+                exercise.views = 0
+                exercise.save()
+                return redirect(reverse('wrkout:show_wrkout',kwargs={'workout_name_slug':workout_name_slug}))
         else:
             print(form.errors)
     context_dict = {'form': form, 'workout': workout}
-    return render(request, 'wrkout/create_workout.html', context=context_dict)
-    
-@login_required    
-def create_exercise(request, category_name_slug):
-    try:
-        exercise = Exercise.objects.get(slug=category_name_slug)
-    except Exercise.DoesNotExist:
-        exercise = None
-    if exercise is None:
-        return redirect('/wrkout/')
-    form = PageForm()
-    if request.method == 'POST':
-        form = PageForm(request.POST)
-        if form.is_valid():
-            if exercise:
-                page = form.save(commit=False)
-                page.exercise = exercise
-                page.views = 0
-                page.save()
-                return redirect(reverse('wrkout:show_category',kwargs={'category_name_slug':category_name_slug}))
-        else:
-            print(form.errors)
-    context_dict = {'form': form, 'exercise': exercise}
     return render(request, 'wrkout/create_exercise.html', context=context_dict)
+    
