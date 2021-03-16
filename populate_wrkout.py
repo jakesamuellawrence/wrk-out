@@ -16,27 +16,25 @@ def populate():
 
     
     
-    exercises = [{'name':'testname', 
+    exercises = [{'name':'test exercise', 
                   'description':'test description',
                   'difficulty':3,
-                  'date':'2021-03-16',
                   'likes':12,
-                  'creatorID':16},]
+                  'creatorname':'testname',
+                  'date':'2021-03-16'},]
 
-    sets=[{'exercisename':'testname', #SetID = 1
+    sets=[{'exercisename':'test exercise', #SetID = 1
            'noofreps':'12'},
-          {'exercisename':'testname', #SetID = 2
+          {'exercisename':'test exercise', #SetID = 2
            'noofreps':'6'},]
     
     workouts = [] 
-    
-    userprofiles = [] 
 
     for user in useraccounts:
         add_user(user['username'],user['password'],user['email'])
 
     for exercise in exercises:
-        add_exercise(exercise['name'],exercise['description'],exercise['difficulty'],exercise['date'],exercise['likes'],exercise['creatorID'])
+        add_exercise(exercise['name'],exercise['description'],exercise['difficulty'],exercise['likes'],exercise['creatorname'],exercise['date'])
 
     for a_set in sets:
         add_set(a_set['exercisename'],a_set['noofreps'])
@@ -59,9 +57,10 @@ def add_user(username, password, email):
     return useraccount
 
 
-def add_exercise(name, description, difficulty, date=datetime.now(), likes=0, creatorID=1):
-    creator=UserProfile.objects.get(UserID=creatorID)
-    exercise = Exercise.objects.get_or_create(Name=name, Description=description, Difficulty=difficulty, Date=datetime.now(), Likes=likes, CreatorID=creator)[0]
+def add_exercise(name, description, difficulty, likes, creatorname, date=datetime.now()):
+    creatorid=User.objects.get(username=creatorname).id
+    creator=UserProfile.objects.get(UserID=creatorid)
+    exercise = Exercise.objects.get_or_create(Name=name, Description=description, Difficulty=difficulty, Likes=likes, CreatorID=creator, Date=datetime.now())[0]
     exercise.Name=name
     exercise.Description=description
     exercise.Difficulty=difficulty
@@ -73,9 +72,8 @@ def add_exercise(name, description, difficulty, date=datetime.now(), likes=0, cr
 
 def add_set(exercisename, noofreps):
     exerciseid=Exercise.objects.get(Name=exercisename)
-    a_set = Set.objects.get_or_create(ExerciseID=exerciseid, NoOfReps=noofreps)
-    
-    
+    a_set = Set.objects.get_or_create(ExerciseID=exerciseid, NoOfReps=noofreps)[0]
+      
 
     
 
