@@ -31,7 +31,7 @@
 
                 {% if user.is_authenticated %}
                     <!-- <button onclick="alert('not yet implemented!');">Log Out</button> -->
-                    <a href="/to/do">Log Out</a>
+                    <a href="{% url 'wrkout:logout' %}">Log Out</a>
                     <!--- Get UserProfile associated with current User, and display their profile picture -->
                     <a id="profile-pic" href="/to/do">
                         <img src="{% static 'wrkout/images/default_pfp.png' %}" />
