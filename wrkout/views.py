@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def test_view(request):
-    return render(request, 'wrkout/create_exercise.html', {'exercise_form': ExerciseForm})
+    return render(request, 'wrkout/create_workout.html', {'workout_form': WorkoutForm})
 
 def show_workout(request, workout_name_slug):
     context_dict = {}
