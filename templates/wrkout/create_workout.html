@@ -1,6 +1,7 @@
 <!--
     Expects as context:
     workout_form
+    exercises - list of all exercises, sorted alphabetically
 -->
 
 {% extends 'wrkout/base.html' %}
@@ -15,6 +16,48 @@
         <h1>Create a New Workout:</h1>
         {% csrf_token %}
         {{ workout_form.as_p }}
-        <input id="create-workout-submit" type="submit" name="submit" value="Create">        
+
+        <hr>
+
+        <div id="add-exercises-block">
+            <div id="selected-exercises">
+                <b>Included Exercises</b>
+                <div id="selected-exercise-list">
+                    <div class="selected-exercise-row">
+                        <a href="/to/do">Sample Exercise</a>
+                        x <input type="number" min="1" value="1">
+                        <img src="{% static 'wrkout/images/trash.png' %}">
+                    </div>
+                    <div class="selected-exercise-row">
+                        <a href="/to/do">Sample Exercise</a>
+                        x <input type="number" min="1" value="1">
+                        <img src="{% static 'wrkout/images/trash.png' %}">
+                    </div>
+                    <div class="selected-exercise-row">
+                        <a href="/to/do">Exercise with a really really really really really really really really really long name</a>
+                        x <input type="number" min="1" value="1">
+                        <img src="{% static 'wrkout/images/trash.png' %}">
+                    </div>
+                </div>
+            </div>
+    
+            <hr>
+        
+            <div id="exercise-selector">
+                <b>Add Exercise</b>
+                <input id="exercise-selector-search" type="text" placeholder="Filter exercises">
+                <div id="exercise-selector-list">
+                    {% for exercise in exercises %}
+                        <div class="exercise-selector-row">
+                            <a href="to/do">{{ exercise.Name }}</a>
+                            <img src="{% static 'wrkout/images/plus.png' %}">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <input id="create-workout-submit" type="submit" name="submit" value="Create Workout">        
     </form>
 {% endblock %}
