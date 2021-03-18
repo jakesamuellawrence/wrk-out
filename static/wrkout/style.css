@@ -125,7 +125,7 @@ button, input[type="submit"] {
     left: var(--sidebar-width);
     width: calc(100% - var(--sidebar-width));
     height: calc(100% - var(--header-height));
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .result-info-box {
@@ -193,7 +193,7 @@ button, input[type="submit"] {
     margin: 10px;
 }
 
-#content form p, #content form input[type="submit"] {
+#content form p, #content form input[type="submit"], #add-exercises-block {
     margin-left: 30px;
 }
 
@@ -206,10 +206,59 @@ input[type="number"] {
     max-width: 2em;
 }
 
+#add-exercises-block {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    padding-left: 0;
+}
+
+#add-exercises-block b {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+#selected-exercises, #exercise-selector {
+    flex: 1;
+    max-width: 400px;
+}
+
+.selected-exercise-row, .exercise-selector-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.selected-exercise-row a, .exercise-selector-row a {
+    flex: 1;
+    margin-left: 0;
+}
+
+.selected-exercise-row * {
+    margin: 0 5px;
+}
+
+#exercise-selector-list, #selected-exercise-list {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#exercise-selector-search {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.selected-exercise-row img, .exercise-selector-row img {
+    height: 1em;
+}
+
 hr {
     margin-left: 10px;
     margin-right: 10px;
-    height: 2px;
-    background-color: var(--gray5);
-    border: none;
+    border-color: var(--gray5);
+    border-style: solid;
 }

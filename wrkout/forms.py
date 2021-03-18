@@ -10,6 +10,8 @@ class UserProfileForm(forms.ModelForm):
         fields = ('ProfilePicture',)
 
 class WorkoutForm(forms.ModelForm):
+    Description = forms.CharField(widget=forms.Textarea())
+
     class Meta:
         model = Workout
         fields = ('Name', 'Description', )

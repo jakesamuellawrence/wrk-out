@@ -13,6 +13,7 @@ urlpatterns = [
     path('test2/', views.test_view, name='test2'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name = 'login'),
+    path('logout/', views.user_logout, name='logout'),
     
     path('workouts/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('workouts/browse/', RedirectView.as_view(permanent=True, url="popular")),
