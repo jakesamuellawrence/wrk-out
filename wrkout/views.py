@@ -119,25 +119,15 @@ def create_workout(request, workout_name_slug):
     return render(request, 'wrkout/create_workout.html', {'form': form})
     
 @login_required    
-def create_exercise(request, workout_name_slug):
-    try:
-        workout = Workout.objects.get(slug=workout_name_slug)
-    except Workout.DoesNotExist:
-        workout = None
-    if workout is None:
-        return redirect('/wrkout/')
+def create_exercise(request, exercise_name_slug):
     form = ExerciseForm()
     if request.method == 'POST':
         form = ExerciseForm(request.POST)
         if form.is_valid():
-            if workout:
-                exercise = form.save(commit=False)
-                exercise.workout = workout
-                exercise.views = 0
-                exercise.save()
-                return redirect(reverse('wrkout:show_wrkout',kwargs={'workout_name_slug':workout_name_slug}))
+            form.save(commit=True)
+            return redirect('/wrkout/')
         else:
             print(form.errors)
-    context_dict = {'form': form, 'workout': workout}
-    return render(request, 'wrkout/create_exercise.html', context=context_dict)
+            
+    return render(request, 'wrkout/create_exercise.html', {'form': form})
     
