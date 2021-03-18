@@ -29,6 +29,18 @@ def show_workout(request, workout_name_slug):
 
     return render(request, 'wrkout/workout.html', context_dict['workout'])
     
+def show_exercise(request, exercise_name_slug):
+    context_dict = {}
+
+    try:
+        exercise = Exercise.objects.get(slug=exercise_name_slug)
+        context_dict['exercises'] = exercises
+        
+    except Exercise.DoesNotExist:
+        context_dict['exercises'] = None
+
+    return render(request, 'wrkout/exercise.html', context_dict['exercise'])
+    
 def browse_popular_workouts(request):
     workout_list = Workout.objects.order_by('-Likes')
     context_dict = {}
@@ -107,7 +119,7 @@ def user_logout(request):
     return redirect(reverse('wrkout:home')) 
     
 @login_required    
-def create_workout(request, workout_name_slug):
+def create_workout(request):
     form = WorkoutForm()
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
@@ -120,7 +132,7 @@ def create_workout(request, workout_name_slug):
     return render(request, 'wrkout/create_workout.html', {'form': form})
     
 @login_required    
-def create_exercise(request, exercise_name_slug):
+def create_exercise(request):
     form = ExerciseForm()
     if request.method == 'POST':
         form = ExerciseForm(request.POST)
