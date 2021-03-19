@@ -32,12 +32,14 @@ class Exercise(models.Model):
     Date = models.DateField()
     Likes = models.IntegerField(default=0)
 
-    def Save(self, *args, **kwargs):
+    def __str__(self):
+        return self.Name
+
+    def save(self, *args, **kwargs):
         self.Slug = slugify(self.Name)
         super(Exercise, self).save(*args, **kwargs)
 
-    def __str__(self):
-        return self.Name
+
     
     
 
@@ -52,12 +54,14 @@ class Workout(models.Model):
     Date = models.DateField()
     Likes = models.IntegerField(default=0)
 
-    def Save(self, *args, **kwargs):
+    def __str__(self):
+        return self.Name
+
+    def save(self, *args, **kwargs):
         self.Slug = slugify(self.Name)
         super(Workout, self).save(*args, **kwargs)
 
-    def __str__(self):
-        return self.Name
+
 
 class Set(models.Model):
     SetID = models.AutoField(primary_key=True)
