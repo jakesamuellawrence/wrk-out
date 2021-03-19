@@ -56,14 +56,14 @@ def browse_popular_exercises(request):
     return response
     
 def browse_newest_workouts(request):
-    workout_list = Workout.objects.order_by('Date')
+    workout_list = Workout.objects.order_by('-Date')
     context_dict = {}
     context_dict['results'] = workout_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
     return response
     
 def browse_newest_exercises(request):
-    exercise_list = Exercise.objects.order_by('Date')
+    exercise_list = Exercise.objects.order_by('-Date')
     context_dict = {}
     context_dict['results'] = exercise_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
