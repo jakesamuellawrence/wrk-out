@@ -120,6 +120,8 @@ def user_logout(request):
     
 @login_required    
 def create_workout(request):
+    exercises = Exercise.objects.order_by('Name')
+
     form = WorkoutForm()
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
@@ -129,7 +131,7 @@ def create_workout(request):
         else:
             print(form.errors)
             
-    return render(request, 'wrkout/create_workout.html', {'form': form})
+    return render(request, 'wrkout/create_workout.html', {'workout_form': form, 'exercises': exercises})
     
 @login_required    
 def create_exercise(request):
@@ -142,5 +144,5 @@ def create_exercise(request):
         else:
             print(form.errors)
             
-    return render(request, 'wrkout/create_exercise.html', {'form': form})
+    return render(request, 'wrkout/create_exercise.html', {'exercise_form': form})
     
