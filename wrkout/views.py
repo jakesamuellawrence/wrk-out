@@ -13,6 +13,24 @@ def test_view(request):
     return render(request, 'wrkout/create_workout.html', {'workout_form': WorkoutForm, 
     'exercises': ([Exercise.objects.all()[0]]*100)})
 
+def search(request):      
+    if request.method == 'GET':
+        context_dict = {}  
+        query =  request.GET.get('search')
+        if query:
+            try:
+                exercises =  Exercise.objects.filter(Name__icontains=query)
+                workouts = Workout.objects.filter(Name__icontains=query)
+                context_dict['exercise'] = exercises
+                context_dict['workout'] = workouts
+            except Exercise.DoesNotExist and Workout.DoesNotExist:
+                context = None
+            return render(request,'wrkout/browse.html',context=context_dict)
+        else:
+            return render(request,'wrkout/browse.html',{})
+    else:
+        return render(request,'wrkout/browse.html',{})
+ 
 def show_workout(request, workout_name_slug):
     context_dict = {}
 
@@ -68,6 +86,7 @@ def browse_newest_exercises(request):
     context_dict['results'] = exercise_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
     return response
+    
     
 def register(request):
     registered = False

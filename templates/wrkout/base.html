@@ -20,7 +20,7 @@
                     <img id="logo" src="{% static 'wrkout/images/logo.png' %}">
                 </a>
                 
-                <form id="search-form" method="get" onsubmit="alert('Not implemented yet!');">
+                <form id="search-form" method="get" action="{% url 'wrkout:search' %}">
                     <input id="search-bar" type="text" name="search-key" placeholder="Search for exercises or workouts" />
                     <!-- <button id="search-button" type="submit">
                         <img src="{% static 'wrkout/images/search_icon.png' %}" />

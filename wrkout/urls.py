@@ -11,6 +11,7 @@ urlpatterns = [
     path('', RedirectView.as_view(permanent=True, url="workouts/browse/popular"), name='home'),
     path('test/', views.test_view, name='test'),
     path('test2/', views.test_view, name='test2'),
+    path('search/', views.search, name='search'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name = 'login'),
     path('logout/', views.user_logout, name='logout'),
