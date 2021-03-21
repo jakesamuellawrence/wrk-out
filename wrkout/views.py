@@ -14,18 +14,15 @@ def test_view(request):
     'exercises': ([Exercise.objects.all()[0]]*100)})
 
 def search(request):
-    print("Doing search!")
     if request.method == 'GET':
         context_dict = {}  
         query =  request.GET.get('search-key')
-        print(query)
         if query:
             try:
                 exercises =  Exercise.objects.filter(Name__icontains=query)
                 workouts = Workout.objects.filter(Name__icontains=query)
                 results = [exercise for exercise in exercises] + [workout for workout in workouts]
                 context_dict['results'] = results
-                print(results)
             except Exercise.DoesNotExist and Workout.DoesNotExist:
                 context = None
             return render(request,'wrkout/browse.html',context=context_dict)
