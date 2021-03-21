@@ -3,6 +3,8 @@
     --header-height: 75px;
     --sidebar-width: 250px;
 
+    --indent-size: 30px;
+
     --gray7: #F9F9F9;
     --gray6: #F2F2F2;
     --gray5: #E0E0E0;
@@ -189,12 +191,12 @@ button, input[type="submit"] {
     box-sizing: border-box;
 }
 
-#content form h1 {
+h1 {
     margin: 10px;
 }
 
 #content form p, #content form input[type="submit"], #add-exercises-block {
-    margin-left: 30px;
+    margin-left: var(--indent-size);
 }
 
 .helptext {
@@ -254,6 +256,25 @@ input[type="number"] {
 
 .selected-exercise-row img, .exercise-selector-row img {
     height: 1em;
+}
+
+#info-block {
+    margin-left: var(--indent-size);
+}
+
+.details-likes {
+    display: flex;
+    align-items: center;
+    flex-basis: 10px;
+}
+
+.details-likes img{
+    height: 2em;
+    margin: 5px;
+}
+
+.indented {
+    margin-left: var(--indent-size);
 }
 
 hr {

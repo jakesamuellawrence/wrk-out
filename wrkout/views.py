@@ -10,8 +10,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def test_view(request):
-    return render(request, 'wrkout/create_workout.html', {'workout_form': WorkoutForm, 
-    'exercises': ([Exercise.objects.all()[0]]*100)})
+    return render(request, 'wrkout/view_exercise.html', {'result': Exercise.objects.get(Slug="hacker-ups")})
 
 def search(request):
     if request.method == 'GET':
