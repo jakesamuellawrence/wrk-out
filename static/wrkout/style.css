@@ -184,7 +184,7 @@ button, input[type="submit"] {
     border: none;
 }
 
-#content form p {
+#content form p, #demo-image-block {
     width: 100%;
     max-width: 800px;
     padding-right: 60px;
@@ -262,6 +262,10 @@ input[type="number"] {
     margin-left: var(--indent-size);
 }
 
+#info-block div {
+    margin-bottom: 5px;
+}
+
 .details-likes {
     display: flex;
     align-items: center;
@@ -275,6 +279,11 @@ input[type="number"] {
 
 .indented {
     margin-left: var(--indent-size);
+}
+
+#demo-image-block img {
+    width: 100%;
+    max-width: 800px;
 }
 
 hr {
