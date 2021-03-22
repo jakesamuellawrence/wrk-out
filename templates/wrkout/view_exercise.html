@@ -1,13 +1,10 @@
 <!--
+    Expects as context:
     result - the exercise being viewed
 -->
 
 {% extends 'wrkout/view_exercise_or_workout_base.html' %}
 {% load staticfiles %}
-
-{% block title_block %}
-    {{ result.name }}
-{% endblock %}
 
 {% block specifics_block %}
     <hr>
@@ -22,5 +19,4 @@
     <div id="demo-video-block" class="indented">
         <iframe width="800px" height="450" id="demo-video" src="{{ result.DemoVideo }}"></iframe>
     </div>
-    <br><br><br><br>
 {% endblock %}

@@ -5,6 +5,10 @@
 {% extends 'wrkout/base.html' %}
 {% load staticfiles %}
 
+{% block title_block %}
+    {{ result.Name }}
+{% endblock %}
+
 {% block content_block %}
     <h1>{{ result.Name }}</h1>
     <div id="info-block">

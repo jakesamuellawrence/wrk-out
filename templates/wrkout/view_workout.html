@@ -1,0 +1,27 @@
+<!--
+    Expects as context:
+    result - the workout being viewed
+-->
+
+{% extends 'wrkout/view_exercise_or_workout_base.html' %}
+{% load staticfiles %}
+
+{% block specifics_block %}
+    <hr>
+    <div class="indented">
+        {{ result.Description }}
+    </div>
+    <hr>
+    <div id="specifics-exercise-list"  class="indented">
+        <ul>
+            {% for set in result.Sets.all %}
+                <li>
+                    <a href="/to/do">{{ set.ExerciseID.Name }}</a> x{{set.NoOfReps}}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+
+

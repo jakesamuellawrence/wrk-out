@@ -286,6 +286,11 @@ input[type="number"] {
     max-width: 800px;
 }
 
+ul {
+    list-style-position: inside;
+    padding: 0;
+}
+
 hr {
     margin-left: 10px;
     margin-right: 10px;
