@@ -30,11 +30,11 @@ def search(request):
     else:
         return render(request,'wrkout/browse.html',{})
  
-def show_workout(request, workout_name_slug):
+def show_workout(request, workout_Name_Slug):
     context_dict = {}
 
     try:
-        workout = Workout.objects.get(slug=workout_name_slug)
+        workout = Workout.objects.get(Slug=workout_Name_Slug)
         exercises = Exercise.objects.filter(workout=workout)
 
         context_dict['exercises'] = exercises
@@ -44,19 +44,19 @@ def show_workout(request, workout_name_slug):
         context_dict['workout'] = None
         context_dict['exercises'] = None
 
-    return render(request, 'wrkout/workout.html', context_dict['workout'])
-    
-def show_exercise(request, exercise_name_slug):
+    return render(request, 'wrkout/view_workout.html', context=context_dict)
+  
+def show_exercise(request, exercise_Name_Slug):
     context_dict = {}
 
     try:
-        exercise = Exercise.objects.get(slug=exercise_name_slug)
-        context_dict['exercises'] = exercises
+        exercise = Exercise.objects.get(Slug=exercise_Name_Slug)
+        context_dict['exercise'] = exercise
         
     except Exercise.DoesNotExist:
-        context_dict['exercises'] = None
+        context_dict['exercise'] = None
 
-    return render(request, 'wrkout/exercise.html', context_dict['exercise'])
+    return render(request, 'wrkout/view_exercise.html', context=context_dict)
     
 def browse_popular_workouts(request):
     workout_list = Workout.objects.order_by('-Likes')

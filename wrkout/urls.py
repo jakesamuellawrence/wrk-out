@@ -15,20 +15,21 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name = 'login'),
     path('logout/', views.user_logout, name='logout'),
+    #path(actionUrl, views.add_button, name = 'add_button'), 
     
     path('workouts/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('workouts/browse/', RedirectView.as_view(permanent=True, url="popular")),
     path('workouts/browse/popular/', views.browse_popular_workouts, name='workouts_popular'),
     path('workouts/browse/new/', views.browse_newest_workouts, name='workouts_new'),
     path('workouts/create/', views.create_workout, name='create_workout'),
-    #path('workouts/<workout_name>/', views.show_workout, name='show_workout'),
+    path('workouts/<slug:workout_Name_Slug>/', views.show_workout, name='show_workout'),
     
     path('exercises/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('exercises/browse/', RedirectView.as_view(permanent=True, url="popular")),
     path('exercises/browse/popular/', views.browse_popular_exercises, name='exercises_popular'),
     path('exercises/browse/new/', views.browse_newest_exercises, name='exercises_new'),
     path('exercises/create/', views.create_exercise, name='create_exercise'),
-    #path('exercises/<exercise_name>/', views.show_exercise, name='show_exercises')
+    path('exercises/<slug:exercise_Name_Slug>/', views.show_exercise, name='show_exercises')
     
     #path('users/', views.show_profile, name='show'),
     #path('users/edit/', views.edit_profile, name='edit'),
