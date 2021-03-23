@@ -11,12 +11,19 @@
     <div class="indented">
         {{ result.Description }}
     </div>
-    <hr>
-    <div id="demo-image-block" class="indented">
-        <img src="{{ result.DemoImage.url }}"/>
-    </div>
-    <hr>
-    <div id="demo-video-block" class="indented">
-        <iframe width="800px" height="450" id="demo-video" src="{{ result.DemoVideo }}"></iframe>
-    </div>
+    
+    {% if result.DemoImage %}
+        <hr>
+        <div id="demo-image-block" class="indented">
+            <img src="{{ result.DemoImage.url }}"/>
+        </div>
+    {% endif %}
+
+    {% if result.DemoVideo %}
+        <hr>
+        <div id="demo-video-block" class="indented">
+            <iframe width="800px" height="450" id="demo-video" src="{{ result.DemoVideo }}"></iframe>
+        </div>
+    {% endif %}
+
 {% endblock %}
