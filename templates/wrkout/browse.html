@@ -13,7 +13,20 @@
 {% block content_block %}
     {% for result in results %}
         <div class="result-info-box">
-            <h3 class="result-name"><a href="/fill this in later">{{ result.Name }}</a></h3>
+            <h3 class="result-name">
+                {% url 'wrkout:workouts_popular' as workouts_popular %}
+                {% url 'wrkout:workouts_new' as workouts_new %}
+                {% url 'wrkout:exercises_popular' as exercises_popular %}
+                {% url 'wrkout:exercises_new' as exercises_new %}
+
+                {% if request.path == workouts_popular or request.path == workouts_new %}
+                    <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
+                {% endif %}
+
+                {% if request.path == exercises_popular or request.path == exercises_new %}
+                    <a href="{% url 'wrkout:show_exercise' result.Slug %}">{{ result.Name }}</a>    
+                {% endif %}
+            </h3>
         
             <div class="result-details">
                 <div class="result-difficulty">
@@ -38,7 +51,7 @@
     
                 <div class="result-creator">
                     Created By: 
-                    <a href="/fill in later">{{ result.CreatorID.UserAccount.username }}</a>
+                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
                 </div>
     
                 <div class="result-date">

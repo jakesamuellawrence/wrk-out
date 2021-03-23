@@ -16,7 +16,7 @@
         <ul>
             {% for set in result.Sets.all %}
                 <li>
-                    <a href="/to/do">{{ set.ExerciseID.Name }}</a> x{{set.NoOfReps}}
+                    <a href="{% url 'wrkout:show_exercise' set.ExerciseID.Slug %}">{{ set.ExerciseID.Name }}</a> x{{set.NoOfReps}}
                 </li>
             {% endfor %}
         </ul>
