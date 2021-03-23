@@ -13,12 +13,13 @@ from django.urls import reverse, resolve
 from django.test import TestCase
 from django.conf import settings
 import wrkout.models
-from wrkout import forms
+from wrkout import forms, views
 from django.db import models
 from django.contrib.auth.models import User
 from wrkout.models import Exercise, Workout
 from populate_wrkout import populate
 from django.forms import fields as django_fields
+from wrkout.forms import ExerciseForm
 
 FAILURE_HEADER = f"{os.linesep}{os.linesep}{os.linesep}================{os.linesep}TwD TEST FAILURE =({os.linesep}================{os.linesep}"
 FAILURE_FOOTER = f"{os.linesep}"
@@ -79,8 +80,10 @@ class Tests1(TestCase):
         browse_path = os.path.join(self.wrkout_templates_dir, 'browse.html')
         login_path = os.path.join(self.wrkout_templates_dir, 'login.html')
         register_path = os.path.join(self.wrkout_templates_dir, 'register.html')
-        workout_path = os.path.join(self.wrkout_templates_dir, 'workout.html')
+        workout_path = os.path.join(self.wrkout_templates_dir, 'view_workout.html')
+        exercise_path = os.path.join(self.wrkout_templates_dir, 'view_exercise.html')
         create_workout_path = os.path.join(self.wrkout_templates_dir, 'create_workout.html')
+        workout_or_exercise_path = os.path.join(self.wrkout_templates_dir, 'view_exercise_or_workout_base.html')
         create_exercise_path = os.path.join(self.wrkout_templates_dir, 'create_exercise.html')
 
 
@@ -89,10 +92,12 @@ class Tests1(TestCase):
         self.assertTrue(os.path.isfile(browse_path), f"{FAILURE_HEADER}Your browse.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
         self.assertTrue(os.path.isfile(login_path), f"{FAILURE_HEADER}Your login.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
         self.assertTrue(os.path.isfile(register_path), f"{FAILURE_HEADER}Your register.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
-        #self.assertTrue(os.path.isfile(workout_path), f"{FAILURE_HEADER}Your workout.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
-        #self.assertTrue(os.path.isfile(create_workout_path), f"{FAILURE_HEADER}Your create_workout.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
-        #self.assertTrue(os.path.isfile(create_exercise_path), f"{FAILURE_HEADER}Your create_exercise.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
-    
+        self.assertTrue(os.path.isfile(workout_path), f"{FAILURE_HEADER}Your workout.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(create_workout_path), f"{FAILURE_HEADER}Your create_workout.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(create_exercise_path), f"{FAILURE_HEADER}Your create_exercise.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(exercise_path), f"{FAILURE_HEADER}Your view_exercise.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(workout_or_exercise_path), f"{FAILURE_HEADER}Your view_exercise_or_workout_base.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+                
     def does_gitignore_include_database(self, path):
         """
         Takes the path to a .gitignore file, and checks to see whether the db.sqlite3 database is present in that file.
@@ -249,7 +254,7 @@ class Tests1(TestCase):
             self.assertTrue(expected_field_name in fields.keys(), f"{FAILURE_HEADER}The field {expected_field_name} was not found in the UserProfile form. Check you have complied with the specification, and try again.{FAILURE_FOOTER}")
             self.assertEqual(expected_field, type(fields[expected_field_name]), f"{FAILURE_HEADER}The field {expected_field_name} in UserProfileForm was not of the correct type. Expected {expected_field}; got {type(fields[expected_field_name])}.{FAILURE_FOOTER}")
 
-    """
+    
     
     def test_login_functionality(self):
         
@@ -265,9 +270,9 @@ class Tests1(TestCase):
             self.assertTrue(False, f"{FAILURE_HEADER}When attempting to log in with your login() view, it didn't seem to log the user in. Please check your login() view implementation, and try again.{FAILURE_FOOTER}")
 
         self.assertEqual(response.status_code, 302, f"{FAILURE_HEADER}Testing your login functionality, logging in was successful. However, we expected a redirect; we got a status code of {response.status_code} instead. Check your login() view implementation.{FAILURE_FOOTER}")
-        self.assertEqual(response.url, reverse('wrkout:index'), f"{FAILURE_HEADER}We were not redirected to the Wrkout homepage after logging in. Please check your login() view implementation, and try again.{FAILURE_FOOTER}")
+        self.assertEqual(response.url, reverse('wrkout:home'), f"{FAILURE_HEADER}We were not redirected to the Wrkout homepage after logging in. Please check your login() view implementation, and try again.{FAILURE_FOOTER}")
 
-    """ #activate test when index view exists/when login redirects do something else than index
+    #activate test when index view exists/when login redirects to something else than index
     
     def test_bad_request(self):
         """
@@ -278,6 +283,18 @@ class Tests1(TestCase):
 
         self.assertEqual(response.status_code, 302, f"{FAILURE_HEADER}We tried to access a restricted view when not logged in. We expected to be redirected, but were not. Check your restricted() view.{FAILURE_FOOTER}")
         self.assertTrue(response.url.startswith(reverse('wrkout:home')), f"{FAILURE_HEADER}We tried to access a restricted view when not logged in, and were expecting to be redirected to the home page. But we were not! Please check your create_workouts view.{FAILURE_FOOTER}")
+        
+    def test_middleware_present(self):
+        """
+        Tests to see if the SessionMiddleware is present in the project configuration.
+        """
+        self.assertTrue('django.contrib.sessions.middleware.SessionMiddleware' in settings.MIDDLEWARE)
+
+    def test_session_app_present(self):
+        """
+        Tests to see if the sessions app is present.
+        """
+        self.assertTrue('django.contrib.sessions' in settings.INSTALLED_APPS)
 
 """
     def test_logged_in_links(self):
@@ -311,8 +328,12 @@ class Tests1(TestCase):
         #self.assertTrue('href="/wrkout/workouts/create"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
         #self.assertTrue('href="/wrkout/exercises/create"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
         #self.assertTrue('href="/wrkout/logout/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-""" #activate these when something uses the base.html
-    
+        """ 
+        #activate these when something uses the base.html
+
+
+
+
 def create_user_object():
     """
     Helper function to create a User object.
@@ -326,3 +347,109 @@ def create_user_object():
 
     return user   
     
+class ViewTests(TestCase):
+    
+    def setUp(self):
+        self.project_base_dir = os.getcwd()
+        self.templates_dir = os.path.join(self.project_base_dir, 'templates')
+        self.wrkout_templates_dir = os.path.join(self.templates_dir, 'wrkout')
+        
+    def test_views(self):
+        
+        """
+        Ensures views work as intended...
+        """
+        #search view
+        search = self.client.get(reverse('wrkout:search'))
+        search_content = search.content.decode()
+        
+        self.assertTrue('search-key' in search_content, f"{FAILURE_HEADER}The search view should use 'search-key' as a perimeter for its query.{FAILURE_FOOTER}")
+        self.assertTrue('results' in search_content, f"{FAILURE_HEADER}The search view context dictionary should have a 'results' variable as the search results.{FAILURE_FOOTER}")
+        self.assertTemplateUsed(search, 'wrkout/browse.html', f"{FAILURE_HEADER}Your search() view does not use the expected wrkout/browse.html template.{FAILURE_FOOTER}")
+
+        #popular/new workouts/exercises
+        
+        browse_popular_exercises = self.client.get(reverse('wrkout:exercises_popular'))
+        browse_new_exercises = self.client.get(reverse('wrkout:exercises_new'))
+        
+        browse_popular_workouts = self.client.get(reverse('wrkout:workouts_popular'))
+        browse_new_workouts = self.client.get(reverse('wrkout:workouts_new'))
+        
+        BPE_content = browse_popular_exercises.content.decode()
+        BNE_content = browse_new_exercises.content.decode()
+        
+        BPW_content = browse_popular_workouts.content.decode()
+        BNW_content = browse_new_workouts.content.decode()
+        
+        workout_list = Workout.objects.order_by('-Likes')
+        exercise_list = Exercise.objects.order_by('-Likes')
+        
+        workout_list2 = Workout.objects.order_by('-Date')
+        exercise_list2 = Exercise.objects.order_by('-Date')
+          
+        self.assertTrue('results' in BPE_content, f"{FAILURE_HEADER}The browse_popular_exercises view should use 'results' in its context dictionary.{FAILURE_FOOTER}")
+        self.assertTrue('results' in BNE_content, f"{FAILURE_HEADER}The browse_new_exercises view should use 'results' in its context dictionary.{FAILURE_FOOTER}")
+        self.assertTrue('results' in BPW_content, f"{FAILURE_HEADER}The browse_popular_workouts view should use 'results' in its context dictionary.{FAILURE_FOOTER}")
+        self.assertTrue('results' in BNW_content, f"{FAILURE_HEADER}The browse_new_workouts view should use 'results' in its context dictionary.{FAILURE_FOOTER}")
+        
+        self.assertEqual(list(workout_list), list(browse_popular_workouts.context['results']), f"{FAILURE_HEADER}Your browse_popular_workouts() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
+        self.assertEqual(list(exercise_list), list(browse_popular_exercises.context['results']), f"{FAILURE_HEADER}Your browse_popular_exercises() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
+        self.assertEqual(list(workout_list2), list(browse_new_workouts.context['results']), f"{FAILURE_HEADER}Your browse_new_workouts() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
+        self.assertEqual(list(exercise_list2), list(browse_popular_exercises.context['results']), f"{FAILURE_HEADER}Your browse_new_exercises() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
+       
+        #register
+        
+        register = self.client.get(reverse('wrkout:register'))
+        register_content = register.content.decode()
+        
+        self.assertTrue('user_form' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'user_form' variable.{FAILURE_FOOTER}")
+        self.assertTrue('profile_form' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'profile_form' variable.{FAILURE_FOOTER}")
+        self.assertTrue('registered' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'registered' variable.{FAILURE_FOOTER}")
+        
+        #create_workout
+        
+        create_workout = self.client.get(reverse('wrkout:create_workout'))
+        cw_content = create_workout.content.decode()
+        cw_context = create_workout.context
+        
+        self.assertTrue('workout_form' in cw_content, f"{FAILURE_HEADER}The create_workout() view context dictionary should have a 'workout_form' variable.{FAILURE_FOOTER}")
+        self.assertTrue('exercises' in cw_content, f"{FAILURE_HEADER}The create_workout() view context dictionary should have a 'exercises' variable.{FAILURE_FOOTER}")
+        
+        exercise_list3 = Exercise.objects.order_by('Name')
+        
+        self.assertEqual(list(exercise_list3), list(cw_context['exercises']), f"{FAILURE_HEADER}Your create_workout() view does not pass the correctly ordered exercises list into its context dictionary{FAILURE_FOOTER}")
+       
+        #create_exercises
+        
+        create_exercise = self.client.get(reverse('wrkout:create_exercise'))
+        ce_content = create_exercise.content.decode()
+        ce_context = create_exercise.context        
+        
+        self.assertTrue('exercise_form' in ce_content, f"{FAILURE_HEADER}The create_exercise() view context dictionary should have a 'exercise_form' variable.{FAILURE_FOOTER}")
+        self.assertEquals(type(ExerciseForm()), type(ce_context['exercise_form']), f"{FAILURE_HEADER}Your create_exercises() view does not pass a Exercise Form into its context dictionary{FAILURE_FOOTER}")
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
