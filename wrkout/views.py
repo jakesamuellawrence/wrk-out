@@ -38,23 +38,23 @@ def show_workout(request, workout_Name_Slug):
         exercises = Exercise.objects.filter(workout=workout)
 
         context_dict['exercises'] = exercises
-        context_dict['workout'] = workout
+        context_dict['result'] = workout
         
     except Workout.DoesNotExist:
-        context_dict['workout'] = None
+        context_dict['result'] = None
         context_dict['exercises'] = None
 
-    return render(request, 'wrkout/view_workout.html', context=context_dict)
+    return render(request, 'wrkout/view_workout.html', context_dict['result'])
   
 def show_exercise(request, exercise_Name_Slug):
     context_dict = {}
 
     try:
         exercise = Exercise.objects.get(Slug=exercise_Name_Slug)
-        context_dict['exercise'] = exercise
+        context_dict['result'] = exercise
         
     except Exercise.DoesNotExist:
-        context_dict['exercise'] = None
+        context_dict['result'] = None
 
     return render(request, 'wrkout/view_exercise.html', context=context_dict)
     
