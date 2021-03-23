@@ -7,6 +7,7 @@ django.setup()
 from wrkout.models import Exercise, Workout, UserProfile, Set
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.contrib.auth.hashers import make_password
 
 def populate():
 
@@ -138,13 +139,13 @@ def populate():
 
 def add_user(username, password, email):
     try:
-        useraccount = User.objects.create_user(username, password)
+        useraccount = User.objects.create_user(username)
         userprofile=UserProfile.objects.get_or_create(UserAccount=useraccount,UserID=useraccount.id)[0]
     except:
-        useraccount = User.objects.get(username=username, password=password)
+        useraccount = User.objects.get(username=username)
         userprofile=UserProfile.objects.get_or_create(UserAccount=useraccount,UserID=useraccount.id)[0]
     useraccount.username=username
-    useraccount.password=password
+    useraccount.password= make_password(password)
     useraccount.email=email
     useraccount.save()
     return useraccount
