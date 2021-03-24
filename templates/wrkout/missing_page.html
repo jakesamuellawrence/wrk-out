@@ -1,0 +1,15 @@
+{% extends 'wrkout/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Missing Page
+{% endblock %}
+
+{% block content_block %}
+<br>
+<div class="indented">
+    Sorry, it looks like the page you're looking for doesn't exist. It was likely
+    deleted.  <br>
+    <a href="{% url 'wrkout:home' %}">Return to Homepage</a>
+</div>
+{% endblock %}

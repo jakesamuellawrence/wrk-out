@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def test_view(request):
-    return render(request, 'wrkout/view_workout.html', {'result': Workout.objects.first})
+    return render(request, 'wrkout/missing_page.html', {})
 
 def search(request):
     if request.method == 'GET':
@@ -38,7 +38,7 @@ def show_workout(request, workout_Name_Slug):
         context_dict['result'] = workout
         
     except Workout.DoesNotExist:
-        context_dict['result'] = None
+        return render(request, 'wrkout/missing_page.html')
 
     return render(request, 'wrkout/view_workout.html', context_dict)
   
@@ -50,7 +50,7 @@ def show_exercise(request, exercise_Name_Slug):
         context_dict['result'] = exercise
         
     except Exercise.DoesNotExist:
-        context_dict['result'] = None
+        return render(request, 'wrkout/missing_page.html')
 
     return render(request, 'wrkout/view_exercise.html', context=context_dict)
     
