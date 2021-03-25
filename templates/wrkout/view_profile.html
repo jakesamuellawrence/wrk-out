@@ -1,0 +1,164 @@
+<!---
+    Expects as context:
+    profile - the profile being viewed
+    created_workouts - workouts created by the profile being viewed
+    created_exercises - exercises created by the profile being viewed
+    is_owner - whether or not the profile being viewed is owned by the logged in user
+-->
+{% extends 'wrkout/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {{ profile.UserAccount.username }}
+{% endblock %}
+
+{% block content_block %}
+    <div id="profile-header">
+        {% if profile.ProfilePicture %}
+            <img src="{{ profile.ProfilePicture.url }}">
+        {% else %}
+            <img src="{% static 'wrkout/images/default_pfp.png' %}">
+        {% endif %}
+
+        <h1>{{ profile.UserAccount.username }}</h1>
+
+        {% if is_owner %}
+            <button>Edit Profile</button>
+        {% endif %}
+    </div>
+    <hr>
+    <div id="created-workouts">
+        <b>Workouts Created by {{ profile.UserAccount.username }}:</b>
+        {% for result in created_workouts %}
+        <div class="result-info-box">
+            <h3 class="result-name">
+                <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
+                {% if is_owner %}
+                    <img src="{% static 'wrkout/images/trash.png' %}">
+                {% endif %}
+            </h3>
+        
+            <div class="result-details">
+                <div class="result-difficulty">
+                    Difficulty: 
+                    {% for i in '12345'|make_list %}
+                        {% if forloop.counter <= result.Difficulty %}
+                            <img class="star" src="{% static 'wrkout/images/star_filled.png' %}"/>
+                        {% else %}
+                            <img class="star" src="{% static 'wrkout/images/star_unfilled.png' %}"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+    
+                <div class="result-likes">
+                    Net likes: 
+                    {% if result.Likes >= 0 %}
+                        <span class="positive-likes">{{result.Likes}}</span>
+                    {% else %}
+                        <span class="negative-likes">{{result.Likes}}</span>
+                    {% endif %}
+                </div>
+    
+                <div class="result-creator">
+                    Created By: 
+                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
+                </div>
+    
+                <div class="result-date">
+                    Created On: {{ result.Date }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div id="created-exercises">
+        <b>Exercises Created by {{ profile.UserAccount.username }}:</b>
+        {% for result in created_exercises %}
+        <div class="result-info-box">
+            <h3 class="result-name">
+                <a href="{% url 'wrkout:show_exercise' result.Slug %}">{{ result.Name }}</a>
+                {% if is_owner %}
+                    <img src="{% static 'wrkout/images/trash.png' %}">
+                {% endif %}
+            </h3>
+        
+            <div class="result-details">
+                <div class="result-difficulty">
+                    Difficulty: 
+                    {% for i in '12345'|make_list %}
+                        {% if forloop.counter <= result.Difficulty %}
+                            <img class="star" src="{% static 'wrkout/images/star_filled.png' %}"/>
+                        {% else %}
+                            <img class="star" src="{% static 'wrkout/images/star_unfilled.png' %}"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+    
+                <div class="result-likes">
+                    Net likes: 
+                    {% if result.Likes >= 0 %}
+                        <span class="positive-likes">{{result.Likes}}</span>
+                    {% else %}
+                        <span class="negative-likes">{{result.Likes}}</span>
+                    {% endif %}
+                </div>
+    
+                <div class="result-creator">
+                    Created By: 
+                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
+                </div>
+    
+                <div class="result-date">
+                    Created On: {{ result.Date }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="saved-workouts">
+        <b>Workouts Saved by {{ profile.UserAccount.username }}:</b>
+        {% for result in profile.SavedWorkouts.all %}
+        <div class="result-info-box">
+            <h3 class="result-name">
+                <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
+                {% if is_owner %}
+                    <img src="{% static 'wrkout/images/trash.png' %}">
+                {% endif %}
+            </h3>
+        
+            <div class="result-details">
+                <div class="result-difficulty">
+                    Difficulty: 
+                    {% for i in '12345'|make_list %}
+                        {% if forloop.counter <= result.Difficulty %}
+                            <img class="star" src="{% static 'wrkout/images/star_filled.png' %}"/>
+                        {% else %}
+                            <img class="star" src="{% static 'wrkout/images/star_unfilled.png' %}"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+    
+                <div class="result-likes">
+                    Net likes: 
+                    {% if result.Likes >= 0 %}
+                        <span class="positive-likes">{{result.Likes}}</span>
+                    {% else %}
+                        <span class="negative-likes">{{result.Likes}}</span>
+                    {% endif %}
+                </div>
+    
+                <div class="result-creator">
+                    Created By: 
+                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
+                </div>
+    
+                <div class="result-date">
+                    Created On: {{ result.Date }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <hr>
+{% endblock %}

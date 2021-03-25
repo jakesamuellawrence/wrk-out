@@ -287,6 +287,28 @@ input[type="number"] {
     max-width: 800px;
 }
 
+#profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#profile-header, #created-workouts, #created-exercises, #saved-workouts {
+    padding: 10px;
+}
+
+#created-workouts .result-info-box, #created-exercises .result-info-box, #saved-workouts .result-info-box {
+    margin-left: 0;
+}
+
+#profile-header img {
+    height: 80px;
+}
+
+.result-name img {
+    height: 0.8em;
+}
+
 ul {
     list-style-position: inside;
     padding: 0;
