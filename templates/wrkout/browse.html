@@ -1,0 +1,63 @@
+<!--
+    Expects to recieve as context:
+     - results - an ordered list of either Exercises or Workouts, either in new-ness or popularity order
+-->
+
+{% extends 'wrkout/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Browse
+{% endblock %}
+
+{% block content_block %}
+    {% for result in results %}
+        <div class="result-info-box">
+            <h3 class="result-name">
+                {% url 'wrkout:workouts_popular' as workouts_popular %}
+                {% url 'wrkout:workouts_new' as workouts_new %}
+                {% url 'wrkout:exercises_popular' as exercises_popular %}
+                {% url 'wrkout:exercises_new' as exercises_new %}
+
+                {% if request.path == workouts_popular or request.path == workouts_new %}
+                    <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
+                {% endif %}
+
+                {% if request.path == exercises_popular or request.path == exercises_new %}
+                    <a href="{% url 'wrkout:show_exercise' result.Slug %}">{{ result.Name }}</a>    
+                {% endif %}
+            </h3>
+        
+            <div class="result-details">
+                <div class="result-difficulty">
+                    Difficulty: 
+                    {% for i in '12345'|make_list %}
+                        {% if forloop.counter <= result.Difficulty %}
+                            <img class="star" src="{% static 'wrkout/images/star_filled.png' %}"/>
+                        {% else %}
+                            <img class="star" src="{% static 'wrkout/images/star_unfilled.png' %}"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+    
+                <div class="result-likes">
+                    Net likes: 
+                    {% if result.Likes >= 0 %}
+                        <span class="positive-likes">{{result.Likes}}</span>
+                    {% else %}
+                        <span class="negative-likes">{{result.Likes}}</span>
+                    {% endif %}
+                </div>
+    
+                <div class="result-creator">
+                    Created By: 
+                    <a href="{% url 'wrkout:profile'  user.username %}">{{ result.CreatorID.UserAccount.username }}</a>
+                </div>
+    
+                <div class="result-date">
+                    Created On: {{ result.Date }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
