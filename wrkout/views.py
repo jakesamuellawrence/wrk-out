@@ -98,8 +98,8 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.UserAccount = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+            if 'ProfilePicture' in request.FILES:
+                profile.ProfilePicture = request.FILES['ProfilePicture']
             profile.save()
             registered = True
         else:
