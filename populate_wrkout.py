@@ -13,16 +13,20 @@ def populate():
 
     useraccounts = [{'username':'TeamWrkOut',
                      'password':'WrkOutPassword',
-                     'email':'TeamWrkOut@gmail.com'},
+                     'email':'TeamWrkOut@gmail.com',
+                     'profilepicture':'TeamWrkOut.png'},
                     {'username':'CreativeUsernameHere',
                      'password':'CreativePassword',
-                     'email':'CreativeUsernameHere@gmail.com'},
+                     'email':'CreativeUsernameHere@gmail.com',
+                     'profilepicture':'CreativeUsernameHere.png'},
                     {'username':'CaptainMysterious',
                      'password':'CaptainPassword',
-                     'email':'CaptainMysterious@gmail.com'},
+                     'email':'CaptainMysterious@gmail.com',
+                     'profilepicture':'CaptainMysterious.png'},
                     {'username':'xXMuscleManXx',
                      'password':'MusclePassword',
-                     'email':'xXMuscleManXx@gmail.com'}]
+                     'email':'xXMuscleManXx@gmail.com',
+                     'profilepicture':'xXMuscleManXx.png'}]
 
     
     
@@ -31,48 +35,56 @@ def populate():
                   'difficulty':1,
                   'likes':39,
                   'creatorname':'TeamWrkOut',
+                  'exerciseimage':'star-jump.png',
                   'date':'2021-03-15'},
                  {'name':'Push Up', 
                   'description':'In the prone position by raise and lower your body with the straightening and bending of your arms while keeping the back straight and supporting the body on your hands and toes.',
                   'difficulty':3,
                   'likes':24,
                   'creatorname':'TeamWrkOut',
+                  'exerciseimage':'push-up.png',
                   'date':'2021-03-16'},
                  {'name':'Squat', 
                   'description':'Stand straight and lower down as if sitting on an invisible chair, straighten yout legs to lift back up.',
                   'difficulty':2,
                   'likes':13,
                   'creatorname':'xXMuscleManXx',
+                  'exerciseimage':'squat.png',
                   'date':'2021-03-10'},
                  {'name':'Car Lift', 
                   'description':'It is what its called, lift up a car.',
                   'difficulty':5,
                   'likes':-4,
                   'creatorname':'xXMuscleManXx',
+                  'exerciseimage':'',
                   'date':'2021-03-17'},
                  {'name':'Pull Up', 
                   'description':'Grip an overhead bar and lift your body until your chin is above the bar.',
                   'difficulty':4,
                   'likes':12,
                   'creatorname':'CreativeUsernameHere',
+                  'exerciseimage':'pull-up.png',
                   'date':'2021-03-12'},
                  {'name':'Burpee', 
                   'description':'A burpee is a two-part exercise, firstly lower yourself down into a press up, then jump up in the air.',
                   'difficulty':4,
                   'likes':28,
                   'creatorname':'CreativeUsernameHere',
+                  'exerciseimage':'burpee.png',
                   'date':'2021-03-09'},
                  {'name':'5km Run', 
                   'description':'Run a distance of five kilometres.',
                   'difficulty':4,
                   'likes':9,
                   'creatorname':'CaptainMysterious',
+                  'exerciseimage':'',
                   'date':'2021-03-14'},
                  {'name':'Mud Crawl', 
                   'description':'Crawl 10m through mud and rain.',
                   'difficulty':5,
                   'likes':-12,
                   'creatorname':'CaptainMysterious',
+                  'exerciseimage':'',
                   'date':'2021-03-17'},]
 
     sets=[{'exercisename':'Star Jump', #SetID = 1
@@ -124,10 +136,10 @@ def populate():
                 'sets':[1,3,6,9,3]},] 
 
     for user in useraccounts:
-        add_user(user['username'],user['password'],user['email'])
+        add_user(user['username'],user['password'],user['email'], user['profilepicture'])
 
     for exercise in exercises:
-        add_exercise(exercise['name'],exercise['description'],exercise['difficulty'],exercise['likes'],exercise['creatorname'],exercise['date'])
+        add_exercise(exercise['name'],exercise['description'],exercise['difficulty'],exercise['likes'],exercise['creatorname'],exercise['exerciseimage'],exercise['date'])
 
     for a_set in sets:
         add_set(a_set['exercisename'],a_set['noofreps'])
@@ -137,7 +149,7 @@ def populate():
     
     
 
-def add_user(username, password, email):
+def add_user(username, password, email, profilepicture):
     try:
         useraccount = User.objects.create_user(username)
         userprofile=UserProfile.objects.get_or_create(UserAccount=useraccount,UserID=useraccount.id)[0]
@@ -147,21 +159,26 @@ def add_user(username, password, email):
     useraccount.username=username
     useraccount.password= make_password(password)
     useraccount.email=email
+    if profilepicture!="":
+        userprofile.ProfilePicture="profile_images/"+profilepicture
     useraccount.save()
-    return useraccount
+    userprofile.save()
+    return useraccount, userprofile
 
 
-def add_exercise(name, description, difficulty, likes, creatorname, date=datetime.now()):
+def add_exercise(name, description, difficulty, likes, creatorname, exerciseimage, date=datetime.now()):
     creatorid=User.objects.get(username=creatorname).id
     creator=UserProfile.objects.get(UserID=creatorid)
     exercise = Exercise.objects.filter(Name=name, Description=description, CreatorID=creator)
     if exercise.exists():
         pass
     else:
-        exercise = Exercise.objects.create(Name=name, Description=description, Difficulty=difficulty, Likes=likes, CreatorID=creator, Date=datetime.now())
+        exercise = Exercise.objects.create(Name=name, Description=description, Difficulty=difficulty, Likes=likes, CreatorID=creator, DemoImage=exerciseimage, Date=datetime.now())
         exercise.Name=name
         exercise.Description=description
         exercise.Difficulty=difficulty
+        if exerciseimage != "":
+            exercise.DemoImage="exercise_images/"+exerciseimage
         exercise.Date=date
         exercise.Likes=likes
         exercise.CreatorID=creator

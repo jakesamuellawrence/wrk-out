@@ -30,11 +30,14 @@
 
 
                 {% if user.is_authenticated %}
-                    <!-- <button onclick="alert('not yet implemented!');">Log Out</button> -->
                     <a href="{% url 'wrkout:logout' %}">Log Out</a>
-                    <!--- Get UserProfile associated with current User, and display their profile picture -->
+                    
                     <a id="profile-pic" href="/to/do">
-                        <img src="{% static 'wrkout/images/default_pfp.png' %}" />
+                        {% if logged_in_profile.ProfilePicture %}
+                            <img src="{{ logged_in_profile.ProfilePicture.url }}" />
+                        {% else %}
+                            <img src="{% static 'wrkout/images/default_pfp.png' %}" />
+                        {% endif %}
                     </a>
                 {% else %}
                     <!-- <button onclick="alert('not yet implemented!');">Log In</button>

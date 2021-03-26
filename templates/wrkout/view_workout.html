@@ -7,6 +7,16 @@
 {% load staticfiles %}
 
 {% block specifics_block %}
+    {% if not result.CreatorID == logged_in_profile %}
+        {% if result in logged_in_profile.SavedWorkouts %}
+            <button class="indented">Remove from collection</button>
+        {% else %}
+            <button class="indented">Save to collection</button>
+        {% endif %}
+    {% else %}
+        <button class="indented important">Delete Workout</button>
+    {% endif %}
+    
     <hr>
     <div class="indented">
         {{ result.Description }}

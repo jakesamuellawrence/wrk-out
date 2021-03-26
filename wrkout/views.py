@@ -13,11 +13,9 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 
 def test_view(request):
-    return render(request, 'wrkout/view_profile.html', {
-        'profile': UserProfile.objects.first(), 
-        'is_owner': True,
-        'created_workouts': Workout.objects.all(),
-        'created_exercises': Exercise.objects.all()})
+    return render(request, 'wrkout/view_exercise.html', {
+        'result': Workout.objects.first(), 
+        'is_owner': True})
 
 def search(request):
     if request.method == 'GET':
@@ -122,8 +120,8 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.UserAccount = user
 
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+            if 'ProfilePicture' in request.FILES:
+                profile.ProfilePicture = request.FILES['ProfilePicture']
             profile.save()
             registered = True
         else:

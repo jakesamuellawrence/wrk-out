@@ -295,45 +295,7 @@ class Tests1(TestCase):
         Tests to see if the sessions app is present.
         """
         self.assertTrue('django.contrib.sessions' in settings.INSTALLED_APPS)
-
-
-    def test_logged_in_links(self):
         
-        #Checks for links that should only be displayed when the user is logged in.
-        
-        user_object = create_user_object()
-        self.client.login(username='testuser', password='testabc123')
-        content = self.client.get(reverse('wrkout:home')).content.decode()
-
-        # These should be present.
-        #self.assertTrue('href="/wrkout/workouts/create"' in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        #self.assertTrue('href="/wrkout/exercises/create"' in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        #self.assertTrue('results' in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-
-        # These should not be present.
-        self.assertTrue('href="/wrkout/login/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        self.assertTrue('href="/wrkout/register/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-
-    def test_logged_out_links(self):
-        
-        #Checks for links that should only be displayed when the user is not logged in.
-        
-        content = self.client.get(reverse('wrkout:home')).content.decode()
-
-        # These should be present.
-        #self.assertTrue('href="/wrkout/login/"' in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        #self.assertTrue('href="/wrkout/register/"' in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-
-        # These should not be present.
-        self.assertTrue('href="/wrkout/workouts/create"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        self.assertTrue('href="/wrkout/exercises/create"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        self.assertTrue('href="/wrkout/logout/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
-        
-        #activate these when login/logout links in base.html are implemented
-
-
-
-
 def create_user_object():
     """
     Helper function to create a User object.
@@ -345,7 +307,36 @@ def create_user_object():
     user.set_password('testabc123')
     user.save()
 
-    return user   
+    return user 
+
+
+class LoginTests(TestCase):
+    
+    def test_logged_in_links(self):
+        
+        #Checks for links that should only be displayed when the user is logged in.
+        
+        user_object = create_user_object()
+        self.client.login(username='testuser', password='testabc123')
+        content = self.client.get(reverse('wrkout:exercises_popular')).content.decode()
+
+        # These should not be present.
+        self.assertTrue('href="/wrkout/login/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
+        self.assertTrue('href="/wrkout/register/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
+
+    def test_logged_out_links(self):
+        
+        #Checks for links that should only be displayed when the user is not logged in.
+        
+        content = self.client.get(reverse('wrkout:exercises_popular')).content.decode()
+        
+        # These should not be present.
+        self.assertTrue('href="/wrkout/workouts/create"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
+        self.assertTrue('href="/wrkout/exercises/create"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
+        self.assertTrue('href="/wrkout/logout/"' not in content, f"{FAILURE_HEADER}Please check the links in your base.html have been updated correctly to change when users log in and out.{FAILURE_FOOTER}")
+        
+        #activate these when login/logout links in base.html are implemented
+  
     
 class ViewTests(TestCase):
     
@@ -355,6 +346,8 @@ class ViewTests(TestCase):
         self.wrkout_templates_dir = os.path.join(self.templates_dir, 'wrkout')
         
     def test_views(self):
+        
+        populate() 
         
         """
         Ensures views work as intended...
@@ -395,7 +388,7 @@ class ViewTests(TestCase):
         self.assertEqual(list(workout_list), list(browse_popular_workouts.context['results']), f"{FAILURE_HEADER}Your browse_popular_workouts() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
         self.assertEqual(list(exercise_list), list(browse_popular_exercises.context['results']), f"{FAILURE_HEADER}Your browse_popular_exercises() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
         self.assertEqual(list(workout_list2), list(browse_new_workouts.context['results']), f"{FAILURE_HEADER}Your browse_new_workouts() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
-        self.assertEqual(list(exercise_list2), list(browse_popular_exercises.context['results']), f"{FAILURE_HEADER}Your browse_new_exercises() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
+        self.assertEqual(list(exercise_list2), list(browse_new_exercises.context['results']), f"{FAILURE_HEADER}Your browse_new_exercises() view does not pass the correctly ordered workout list into its context dictionary{FAILURE_FOOTER}")
        
         #register
         
@@ -406,18 +399,33 @@ class ViewTests(TestCase):
         self.assertTrue('profile_form' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'profile_form' variable.{FAILURE_FOOTER}")
         self.assertTrue('registered' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'registered' variable.{FAILURE_FOOTER}")
         
+        
+    def test_views2(self): 
+        #logged in
+        
+        #logout
+        
+        logout = self.client.get(reverse('wrkout:logout'))
+ 
+        self.assertTrue(logout.url.startswith(reverse('wrkout:home')), f"{FAILURE_HEADER}We tried logging out and were expecting to be redirected to the home page. But we were not! Please check your logout view.{FAILURE_FOOTER}")
+        
+        
         #create_workout
         
-        create_workout = self.client.get(reverse('wrkout:create_workout'))
-        cw_content = create_workout.content.decode()
-        cw_context = create_workout.context
+        user_object = create_user_object()
+        self.client.login(username='testuser', password='testabc123')
         
-        #self.assertTrue('workout_form' in cw_content, f"{FAILURE_HEADER}The create_workout() view context dictionary should have a 'workout_form' variable.{FAILURE_FOOTER}")
-        #self.assertTrue('exercises' in cw_content, f"{FAILURE_HEADER}The create_workout() view context dictionary should have a 'exercises' variable.{FAILURE_FOOTER}")
+        self.create_workout = self.client.get(reverse('wrkout:create_workout'))
+        cw_content = self.create_workout.content.decode()
+        cw_context = self.create_workout.context
+        
+        self.assertTemplateUsed(self.create_workout, 'wrkout/create_workout.html', f"{FAILURE_HEADER}Your create_workout() view does not use the expected wrkout/create_workout.html template.{FAILURE_FOOTER}")
+        self.assertTrue('workout_form' in cw_content, f"{FAILURE_HEADER}The create_workout() view context dictionary should have a 'workout_form' variable.{FAILURE_FOOTER}")
+        self.assertTrue('exercises' in cw_content, f"{FAILURE_HEADER}The create_workout() view context dictionary should have a 'exercises' variable.{FAILURE_FOOTER}")
         
         exercise_list3 = Exercise.objects.order_by('Name')
         
-        #self.assertEqual(list(exercise_list3), list(cw_context['exercises']), f"{FAILURE_HEADER}Your create_workout() view does not pass the correctly ordered exercises list into its context dictionary{FAILURE_FOOTER}")
+        self.assertEqual(list(exercise_list3), list(cw_context['exercises']), f"{FAILURE_HEADER}Your create_workout() view does not pass the correctly ordered exercises list into its context dictionary{FAILURE_FOOTER}")
        
         #create_exercises
         
@@ -425,10 +433,10 @@ class ViewTests(TestCase):
         ce_content = create_exercise.content.decode()
         ce_context = create_exercise.context        
         
-        #self.assertTrue('exercise_form' in ce_content, f"{FAILURE_HEADER}The create_exercise() view context dictionary should have a 'exercise_form' variable.{FAILURE_FOOTER}")
-        #self.assertEquals(type(ExerciseForm()), type(ce_context['exercise_form']), f"{FAILURE_HEADER}Your create_exercises() view does not pass a Exercise Form into its context dictionary{FAILURE_FOOTER}")
-        
-        
+        self.assertTrue('exercise_form' in ce_content, f"{FAILURE_HEADER}The create_exercise() view context dictionary should have a 'exercise_form' variable.{FAILURE_FOOTER}")
+        self.assertEquals(type(ExerciseForm()), type(ce_context['exercise_form']), f"{FAILURE_HEADER}Your create_exercises() view does not pass a Exercise Form into its context dictionary{FAILURE_FOOTER}")
+
+          
         
         
         

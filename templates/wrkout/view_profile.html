@@ -3,7 +3,6 @@
     profile - the profile being viewed
     created_workouts - workouts created by the profile being viewed
     created_exercises - exercises created by the profile being viewed
-    is_owner - whether or not the profile being viewed is owned by the logged in user
 -->
 {% extends 'wrkout/base.html' %}
 {% load staticfiles %}
@@ -22,7 +21,7 @@
 
         <h1>{{ profile.UserAccount.username }}</h1>
 
-        {% if is_owner %}
+        {% if profile == logged_in_profile %}
             <button>Edit Profile</button>
         {% endif %}
     </div>

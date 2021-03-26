@@ -7,6 +7,10 @@
 {% load staticfiles %}
 
 {% block specifics_block %}
+    {% if result.CreatorID == logged_in_profile %}
+        <button class="indented important">Delete Exercise</button>
+    {% endif %}
+
     <hr>
     <div class="indented">
         {{ result.Description }}
