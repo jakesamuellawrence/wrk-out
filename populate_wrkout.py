@@ -159,7 +159,8 @@ def add_user(username, password, email, profilepicture):
     useraccount.username=username
     useraccount.password= make_password(password)
     useraccount.email=email
-    userprofile.ProfilePicture=profilepicture
+    if profilepicture!="":
+        userprofile.ProfilePicture="profile_images/"+profilepicture
     useraccount.save()
     userprofile.save()
     return useraccount, userprofile
@@ -176,7 +177,8 @@ def add_exercise(name, description, difficulty, likes, creatorname, exerciseimag
         exercise.Name=name
         exercise.Description=description
         exercise.Difficulty=difficulty
-        exercise.DemoImage=exerciseimage
+        if exerciseimage != "":
+            exercise.DemoImage="exercise_images/"+exerciseimage
         exercise.Date=date
         exercise.Likes=likes
         exercise.CreatorID=creator
