@@ -1,23 +1,22 @@
 <!--
     Expects as context:
     result - the workout being viewed
-    is_owner - whether or not the current user created the workout being viewed
-    is_saved - whether or not the current user has this workout in their collection of saved workouts
 -->
 
 {% extends 'wrkout/view_exercise_or_workout_base.html' %}
 {% load staticfiles %}
 
 {% block specifics_block %}
-    {% if not is_owner %}
-        {% if not is_saved %}
-            <button class="indented">Save to collection</button>
-        {% else %}
+    {% if not result.CreatorID == logged_in_profile %}
+        {% if result in logged_in_profile.SavedWorkouts %}
             <button class="indented">Remove from collection</button>
+        {% else %}
+            <button class="indented">Save to collection</button>
         {% endif %}
     {% else %}
         <button class="indented important">Delete Workout</button>
     {% endif %}
+    
     <hr>
     <div class="indented">
         {{ result.Description }}
