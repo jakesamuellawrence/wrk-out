@@ -88,24 +88,19 @@ def browse_newest_exercises(request):
     return response
 
 def view_profile(request,username):
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return render(request, 'wrkout/missing_page.html')
-        profile = UserProfile.objects.get_or_create(UserAccount=user)[0]
-        is_owner = False
-        if user == request.user.username:
-            is_owner = True
-        context_dict = {}
-        creator_ID = profile.UserID
-        try:
-            workouts = Workout.objects.get(CreatorID=creator_ID)
-            exercises = Exercise.objects.get(CreatorID=creator_ID)
-        except:
-            workouts = None
-            exercises = None
-        context_dict = {'profile': profile,'created_workouts': workouts,'created_exercises':exercises,'is_owner':is_owner}
-        render(request, 'wrkout/view_profile.html', context_dict)    
+    try:
+        profile = UserProfile.objects.get(Slug=username)
+    except UserProfile.DoesNotExist:
+        return render(request, 'wrkout/missing_page.html')
+    context_dict = {}
+    try:
+        workouts = Workout.objects.get(CreatorID=profile)
+        exercises = Exercise.objects.get(CreatorID=profile)
+    except:
+        workouts = None
+        exercises = None
+    context_dict = {'profile': profile,'created_workouts': workouts,'created_exercises':exercises,}
+    return render(request, 'wrkout/view_profile.html', context_dict)
     
 def register(request):
     registered = False

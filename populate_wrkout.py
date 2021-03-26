@@ -27,8 +27,6 @@ def populate():
                      'password':'MusclePassword',
                      'email':'xXMuscleManXx@gmail.com',
                      'profilepicture':'xXMuscleManXx.png'}]
-
-    
     
     exercises = [{'name':'Star Jump', 
                   'description':'Jump to a position with the legs spread wide and the hands going overhead and then return to a position with the feet together and the arms at the sides.',

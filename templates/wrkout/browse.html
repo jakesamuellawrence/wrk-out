@@ -51,7 +51,7 @@
     
                 <div class="result-creator">
                     Created By: 
-                    <a href="{% url 'wrkout:profile'  user.username %}">{{ result.CreatorID.UserAccount.username }}</a>
+                    <a href="{% url 'wrkout:profile' result.CreatorID.Slug %}">{{ result.CreatorID.UserAccount.username }}</a>
                 </div>
     
                 <div class="result-date">
