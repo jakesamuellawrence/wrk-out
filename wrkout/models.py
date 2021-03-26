@@ -21,6 +21,7 @@ class UserProfile(models.Model):
         super(UserProfile, self).save(*args, **kwargs)
 
 class Exercise(models.Model):
+    isExercise = True
     ExerciseID = models.AutoField(primary_key=True)
     CreatorID = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Slug = models.SlugField(unique=True, null=True)
@@ -45,6 +46,7 @@ class Exercise(models.Model):
     
 
 class Workout(models.Model):
+    isWorkout = True
     WorkoutID = models.AutoField(primary_key=True)
     CreatorID = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Slug = models.SlugField(unique=True, null=True)
