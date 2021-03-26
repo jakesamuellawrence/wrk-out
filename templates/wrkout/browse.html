@@ -14,16 +14,9 @@
     {% for result in results %}
         <div class="result-info-box">
             <h3 class="result-name">
-                {% url 'wrkout:workouts_popular' as workouts_popular %}
-                {% url 'wrkout:workouts_new' as workouts_new %}
-                {% url 'wrkout:exercises_popular' as exercises_popular %}
-                {% url 'wrkout:exercises_new' as exercises_new %}
-
-                {% if request.path == workouts_popular or request.path == workouts_new %}
+                {% if result.isWorkout %}
                     <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
-                {% endif %}
-
-                {% if request.path == exercises_popular or request.path == exercises_new %}
+                {% else %}
                     <a href="{% url 'wrkout:show_exercise' result.Slug %}">{{ result.Name }}</a>    
                 {% endif %}
             </h3>
