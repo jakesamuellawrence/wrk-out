@@ -94,11 +94,13 @@ def view_profile(request,username):
         return render(request, 'wrkout/missing_page.html')
     context_dict = {}
     try:
-        workouts = Workout.objects.get(CreatorID=profile)
-        exercises = Exercise.objects.get(CreatorID=profile)
-    except:
+        workouts = Workout.objects.filter(CreatorID=profile)
+        exercises = Exercise.objects.filter(CreatorID=profile)
+    except Workout.DoesNotExist:
         workouts = None
+    except Exercise.DoesNotExist:
         exercises = None
+
     context_dict = {'profile': profile,'created_workouts': workouts,'created_exercises':exercises,}
     return render(request, 'wrkout/view_profile.html', context_dict)
     
