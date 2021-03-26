@@ -131,7 +131,16 @@ def populate():
                 'likes':16,
                 'creatorname':'CaptainMysterious',
                 'date':'2021-03-10',
-                'sets':[1,3,6,9,3]},] 
+                'sets':[1,3,6,9,3]},]
+
+    savedworkouts = [{'username':'TeamWrkOut',
+                      'savedworkouts':["Marine Entry","Cardio Extreme","Leg Day Burner"]},
+                     {'username':'CaptainMysterious',
+                      'savedworkouts':["Cardio Extreme","Our First Workout"]},
+                     {'username':'CreativeUsernameHere',
+                      'savedworkouts':["Marine Entry"]},
+                     {'username':'xXMuscleManXx',
+                      'savedworkouts':["Our First Workout"]},]
 
     for user in useraccounts:
         add_user(user['username'],user['password'],user['email'], user['profilepicture'])
@@ -144,6 +153,9 @@ def populate():
 
     for workout in workouts:
         add_workout(workout['name'],workout['description'],workout['difficulty'],workout['likes'],workout['creatorname'],workout['sets'],workout['date'])
+
+    for savedworkout in savedworkouts:
+        add_savedworkouts(savedworkout['username'],savedworkout['savedworkouts'])
     
     
 
@@ -205,6 +217,14 @@ def add_workout(name, description, difficulty, likes, creatorname, sets, date=da
             workout.Sets.add(a_set)
         workout.save()
     return workout
+
+def add_savedworkouts(username, savedworkouts):
+    useraccount = User.objects.get(username=username)
+    userprofile=UserProfile.objects.get(UserAccount=useraccount,UserID=useraccount.id)
+    for workoutname in savedworkouts:
+        savedworkout = Workout.objects.get(Name=workoutname)
+        userprofile.SavedWorkouts.add(savedworkout)
+        
     
 
  

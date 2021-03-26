@@ -21,7 +21,6 @@ class UserProfile(models.Model):
         super(UserProfile, self).save(*args, **kwargs)
 
 class Exercise(models.Model):
-    isExercise = True
     ExerciseID = models.AutoField(primary_key=True)
     CreatorID = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Slug = models.SlugField(unique=True, null=True)
@@ -37,7 +36,7 @@ class Exercise(models.Model):
         return self.Name
 
     def save(self, *args, **kwargs):
-        self.DemoVideo=self.DemoVideo.replaceAll("watch?v=","embed/")
+        self.DemoVideo=self.DemoVideo.replace("watch?v=","embed/")
         self.Slug = slugify(self.Name)
         super(Exercise, self).save(*args, **kwargs)
 
@@ -46,7 +45,6 @@ class Exercise(models.Model):
     
 
 class Workout(models.Model):
-    isWorkout = True
     WorkoutID = models.AutoField(primary_key=True)
     CreatorID = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     Slug = models.SlugField(unique=True, null=True)
