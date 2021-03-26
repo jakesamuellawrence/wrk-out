@@ -21,7 +21,7 @@ urlpatterns = [
     path('workouts/browse/', RedirectView.as_view(permanent=True, url="popular")),
     path('workouts/browse/popular/', views.browse_popular_workouts, name='workouts_popular'),
     path('workouts/browse/new/', views.browse_newest_workouts, name='workouts_new'),
-    path('workouts/browse/difficulty/', views.browse_difficulty_workouts, name='workouts_new'),
+    path('workouts/browse/difficulty/', views.browse_difficulty_workouts, name='workouts_difficulty'),
     path('workouts/create/', views.create_workout, name='create_workout'),
     path('workouts/<slug:workout_Name_Slug>/', views.show_workout, name='show_workout'),
     
@@ -29,7 +29,7 @@ urlpatterns = [
     path('exercises/browse/', RedirectView.as_view(permanent=True, url="popular")),
     path('exercises/browse/popular/', views.browse_popular_exercises, name='exercises_popular'),
     path('exercises/browse/new/', views.browse_newest_exercises, name='exercises_new'),
-    path('exercises/browse/difficulty/', views.browse_difficulty_exercises, name='exercises_popular'),
+    path('exercises/browse/difficulty/', views.browse_difficulty_exercises, name='exercises_difficulty'),
     path('exercises/create/', views.create_exercise, name='create_exercise'),
     path('exercises/<slug:exercise_Name_Slug>/', views.show_exercise, name='show_exercise'),
     

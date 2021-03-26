@@ -51,17 +51,23 @@
         <div id="sidebar">
             {% url 'wrkout:workouts_popular' as workouts_popular %}
             {% url 'wrkout:workouts_new' as workouts_new %}
+            {% url 'wrkout:workouts_difficulty' as workouts_difficulty %}
             {% url 'wrkout:exercises_popular' as exercises_popular %}
             {% url 'wrkout:exercises_new' as exercises_new %}
+            {% url 'wrkout:exercises_difficulty' as exercises_difficulty %}
             <h2>Browse By:</h2>
             <a  {% if request.path == workouts_popular %} class="selected" {% else %} class="unselected" {% endif %} 
                 href="{{ workouts_popular }}">Popular Workouts</a> 
             <a  {% if request.path == workouts_new %} class="selected" {% else %} class="unselected" {% endif %} 
                 href="{{ workouts_new }}">New Workouts</a> 
+            <a  {% if request.path == workouts_difficulty %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ workouts_difficulty }}">Difficult Workouts</a>
             <a  {% if request.path == exercises_popular %} class="selected" {% else %} class="unselected" {% endif %} 
                 href="{{ exercises_popular }}">Popular Exercises</a> 
             <a  {% if request.path == exercises_new %} class="selected" {% else %} class="unselected" {% endif %} 
                 href="{{ exercises_new }}">New Exercises</a>
+            <a  {% if request.path == exercises_difficulty %} class="selected" {% else %} class="unselected" {% endif %} 
+                href="{{ exercises_difficulty }}">Difficult Exercises</a>
             
             {% if user.is_authenticated %}
                 {% url 'wrkout:create_workout' as create_workout %}
