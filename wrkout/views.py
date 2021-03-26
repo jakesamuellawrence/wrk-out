@@ -5,7 +5,10 @@ from wrkout.models import User, Exercise, Workout, UserProfile
 from wrkout.forms import UserForm, ExerciseForm, WorkoutForm, UserProfileForm 
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views import View
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -85,7 +88,26 @@ def browse_newest_exercises(request):
     context_dict['results'] = exercise_list
     response = render(request, 'wrkout/browse.html', context=context_dict)
     return response
-    
+
+def view_profile(request,username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return render(request, 'wrkout/missing_page.html')
+        profile = UserProfile.objects.get_or_create(UserAccount=user)[0]
+        is_owner = False
+        if user == request.user.username:
+            is_owner = True
+        context_dict = {}
+        creator_ID = profile.UserID
+        try:
+            workouts = Workout.objects.get(CreatorID=creator_ID)
+            exercises = Exercise.objects.get(CreatorID=creator_ID)
+        except:
+            workouts = None
+            exercises = None
+        context_dict = {'profile': profile,'created_workouts': workouts,'created_exercises':exercises,'is_owner':is_owner}
+        render(request, 'wrkout/view_profile.html', context_dict)    
     
 def register(request):
     registered = False
@@ -130,7 +152,8 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'wrkout/login.html')
- 
+
+
 @login_required
 def user_logout(request):
     logout(request)
