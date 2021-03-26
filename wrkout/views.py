@@ -10,11 +10,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def test_view(request):
-    return render(request, 'wrkout/view_profile.html', {
-        'profile': UserProfile.objects.first(), 
-        'is_owner': True,
-        'created_workouts': Workout.objects.all(),
-        'created_exercises': Exercise.objects.all()})
+    return render(request, 'wrkout/view_exercise.html', {
+        'result': Workout.objects.first(), 
+        'is_owner': True})
 
 def search(request):
     if request.method == 'GET':

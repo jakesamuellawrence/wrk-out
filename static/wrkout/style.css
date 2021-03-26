@@ -309,6 +309,12 @@ input[type="number"] {
     height: 0.8em;
 }
 
+.important {
+    background-color: var(--red1);
+    color: white;
+    display: block;
+}
+
 ul {
     list-style-position: inside;
     padding: 0;

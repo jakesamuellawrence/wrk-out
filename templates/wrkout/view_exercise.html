@@ -1,12 +1,17 @@
 <!--
     Expects as context:
     result - the exercise being viewed
+    is_owner - whether or not the logged in user is the creator of the exercise
 -->
 
 {% extends 'wrkout/view_exercise_or_workout_base.html' %}
 {% load staticfiles %}
 
 {% block specifics_block %}
+    {% if is_owner %}
+        <button class="indented important">Delete Exercise</button>
+    {% endif %}
+
     <hr>
     <div class="indented">
         {{ result.Description }}
