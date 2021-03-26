@@ -37,6 +37,7 @@ class Exercise(models.Model):
         return self.Name
 
     def save(self, *args, **kwargs):
+        self.DemoVideo=self.DemoVideo.replaceAll("watch?v=","embed/")
         self.Slug = slugify(self.Name)
         super(Exercise, self).save(*args, **kwargs)
 
