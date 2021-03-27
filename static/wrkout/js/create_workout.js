@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $(".add-exercise-button").click(function() {
         trashImgSource = $(this).data("trash-src");
-        exerciseSlug = $(this).data("exercise-slug")
+        exerciseSlug = $(this).data("exercise-slug");
         exerciseHref = $(this).data("exercise-href");
         exerciseName = $(this).data("exercise-name");
 
@@ -14,8 +14,22 @@ $(document).ready(function () {
         `);
 
         $(".remove-exercise-button").click(function () {
-            console.log("being clicked!");
             $(this).closest(".selected-exercise-row").remove();
-        })
+        });
+    });
+
+    $("#exercise-selector-search").on('input', function () {
+        rows = $("#exercise-selector-list").children(".exercise-selector-row");
+
+        searchKey = $(this)[0].value.trim().toLowerCase();
+
+        for (i = 0; i < rows.length; i++) {
+            exerciseName = $(rows[i]).children("a")[0].innerHTML;
+            if (exerciseName.toLowerCase().trim().includes(searchKey)) {
+                $(rows[i]).css("display", "flex");
+            } else {
+                $(rows[i]).css("display", "none");
+            }
+        }
     });
 });
