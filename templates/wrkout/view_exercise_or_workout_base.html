@@ -25,7 +25,7 @@
 
         <div class="details-creator">
             Created By: 
-            <a href="/fill in later">{{ result.CreatorID.UserAccount.username }}</a>
+            <a href="{% url 'wrkout:profile' result.CreatorID.Slug %}">{{ result.CreatorID.UserAccount.username }}</a>
         </div>
 
         <div class="details-date">

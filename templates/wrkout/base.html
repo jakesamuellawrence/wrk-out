@@ -32,7 +32,7 @@
                 {% if user.is_authenticated %}
                     <a href="{% url 'wrkout:logout' %}">Log Out</a>
                     
-                    <a id="profile-pic" href="/to/do">
+                    <a id="profile-pic" href="{% url 'wrkout:profile' logged_in_profile.Slug %}">
                         {% if logged_in_profile.ProfilePicture %}
                             <img src="{{ logged_in_profile.ProfilePicture.url }}" />
                         {% else %}

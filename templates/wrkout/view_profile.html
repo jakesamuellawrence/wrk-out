@@ -32,7 +32,7 @@
         <div class="result-info-box">
             <h3 class="result-name">
                 <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
-                {% if is_owner %}
+                {% if profile == logged_in_profile %}
                     <img src="{% static 'wrkout/images/trash.png' %}">
                 {% endif %}
             </h3>
@@ -60,7 +60,7 @@
     
                 <div class="result-creator">
                     Created By: 
-                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
+                    <a href="{% url 'wrkout:profile' result.CreatorID.Slug %}">{{ result.CreatorID.UserAccount.username }}</a>
                 </div>
     
                 <div class="result-date">
@@ -77,7 +77,7 @@
         <div class="result-info-box">
             <h3 class="result-name">
                 <a href="{% url 'wrkout:show_exercise' result.Slug %}">{{ result.Name }}</a>
-                {% if is_owner %}
+                {% if logged_in_profile == profile %}
                     <img src="{% static 'wrkout/images/trash.png' %}">
                 {% endif %}
             </h3>
@@ -105,7 +105,7 @@
     
                 <div class="result-creator">
                     Created By: 
-                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
+                    <a href="{% url 'wrkout:profile' result.CreatorID.Slug %}">{{ result.CreatorID.UserAccount.username }}</a>
                 </div>
     
                 <div class="result-date">
@@ -121,9 +121,6 @@
         <div class="result-info-box">
             <h3 class="result-name">
                 <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
-                {% if is_owner %}
-                    <img src="{% static 'wrkout/images/trash.png' %}">
-                {% endif %}
             </h3>
         
             <div class="result-details">
@@ -149,7 +146,7 @@
     
                 <div class="result-creator">
                     Created By: 
-                    <a href="/fill/in/later">{{ result.CreatorID.UserAccount.username }}</a>
+                    <a href="{% url 'wrkout:profile' result.CreatorID.Slug %}">{{ result.CreatorID.UserAccount.username }}</a>
                 </div>
     
                 <div class="result-date">

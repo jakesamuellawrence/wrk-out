@@ -205,7 +205,7 @@ h1 {
 }
 
 input[type="number"] {
-    max-width: 2em;
+    max-width: 3em;
 }
 
 #add-exercises-block {
@@ -301,8 +301,13 @@ input[type="number"] {
     margin-left: 0;
 }
 
+#create-workout-submit {
+    margin-bottom: 10px;
+}
+
 #profile-header img {
     height: 80px;
+    border: 1px solid var(--gray1);
 }
 
 .result-name img {
