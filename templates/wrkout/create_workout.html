@@ -11,6 +11,10 @@
     Create Workout
 {% endblock %}
 
+{% block js_block %}
+    <script src="{% static 'wrkout/js/create_workout.js' %}"></script>
+{% endblock %}
+
 {% block content_block %}
     <form id="create-workout-form" method="POST" action="{% url 'wrkout:create_workout' %}" enctype="multipart/form-data">
         <h1>Create a New Workout:</h1>
@@ -23,21 +27,7 @@
             <div id="selected-exercises">
                 <b>Included Exercises</b>
                 <div id="selected-exercise-list">
-                    <div class="selected-exercise-row">
-                        <a href="/to/do">Sample Exercise</a>
-                        x <input type="number" min="1" value="1">
-                        <img src="{% static 'wrkout/images/trash.png' %}">
-                    </div>
-                    <div class="selected-exercise-row">
-                        <a href="/to/do">Sample Exercise</a>
-                        x <input type="number" min="1" value="1">
-                        <img src="{% static 'wrkout/images/trash.png' %}">
-                    </div>
-                    <div class="selected-exercise-row">
-                        <a href="/to/do">Exercise with a really really really really really really really really really long name</a>
-                        x <input type="number" min="1" value="1">
-                        <img src="{% static 'wrkout/images/trash.png' %}">
-                    </div>
+                    
                 </div>
             </div>
     
@@ -49,8 +39,13 @@
                 <div id="exercise-selector-list">
                     {% for exercise in exercises %}
                         <div class="exercise-selector-row">
-                            <a href="to/do">{{ exercise.Name }}</a>
-                            <img src="{% static 'wrkout/images/plus.png' %}">
+                            <a href="{% url 'wrkout:show_exercise' exercise.Slug %}">{{ exercise.Name }}</a>
+                            <img class="add-exercise-button clickable" 
+                                 src="{% static 'wrkout/images/plus.png' %}"
+                                 data-trash-src="{% static 'wrkout/images/trash.png' %}"
+                                 data-exercise-slug="{{ exercise.Slug }}"
+                                 data-exercise-href="{% url 'wrkout:show_exercise' exercise.Slug %}"
+                                 data-exercise-name="{{ exercise.Name }}">
                         </div>
                     {% endfor %}
                 </div>

@@ -320,6 +320,10 @@ input[type="number"] {
     display: block;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 ul {
     list-style-position: inside;
     padding: 0;
