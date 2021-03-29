@@ -195,4 +195,27 @@ def create_exercise(request):
             print(form.errors)
             
     return render(request, 'wrkout/create_exercise.html', {'exercise_form': form})
+
+@login_required
+def save_workout(request, workout_Name_Slug):
+    try:
+        workout_to_save = Workout.objects.get(Slug=workout_Name_Slug)
+    except Workout.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.SavedWorkouts.add(workout_to_save)
+
+    return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
+
+@login_required
+def unsave_workout(request, workout_Name_Slug):
+    try:
+        workout_to_unsave = Workout.objects.get(Slug=workout_Name_Slug)
+    except Workout.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
     
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.SavedWorkouts.remove(workout_to_unsave)
+
+    return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))

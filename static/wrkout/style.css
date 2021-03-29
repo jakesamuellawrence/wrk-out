@@ -329,6 +329,11 @@ ul {
     padding: 0;
 }
 
+.button-container, .button-container button {
+    display: inline-block;
+    cursor: pointer;
+}
+
 hr {
     margin-left: 10px;
     margin-right: 10px;

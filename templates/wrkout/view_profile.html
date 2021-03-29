@@ -115,6 +115,7 @@
         </div>
         {% endfor %}
     </div>
+    <hr>
     <div id="saved-workouts">
         <b>Workouts Saved by {{ profile.UserAccount.username }}:</b>
         {% for result in profile.SavedWorkouts.all %}

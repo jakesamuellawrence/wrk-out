@@ -24,6 +24,8 @@ urlpatterns = [
     path('workouts/browse/difficulty/', views.browse_difficulty_workouts, name='workouts_difficulty'),
     path('workouts/create/', views.create_workout, name='create_workout'),
     path('workouts/<slug:workout_Name_Slug>/', views.show_workout, name='show_workout'),
+    path('workouts/<slug:workout_Name_Slug>/save', views.save_workout, name="save_workout"),
+    path('workouts/<slug:workout_Name_Slug>/unsave', views.unsave_workout, name="unsave_workout"),
     
     path('exercises/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('exercises/browse/', RedirectView.as_view(permanent=True, url="popular")),
