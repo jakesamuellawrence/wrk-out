@@ -9,6 +9,9 @@
     <form id="login-form" method="POST" action="{% url 'wrkout:login' %}">
         {% csrf_token %}
         <h1>Log In:</h1>
+        {% if error %}
+            <p class="errorlist">{{ error }}</p>
+        {% endif %}
         <p>
             <label for="id_username">Username:</label>
             <input id="id_username" type="text" name="username" maxlength="150" required>

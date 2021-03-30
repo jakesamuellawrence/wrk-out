@@ -155,10 +155,10 @@ def user_login(request):
                 login(request, user)
                 return redirect(reverse('wrkout:home'))
             else:
-                return HttpResponse("Your Wrkout account is disabled.")
+                return render(request, 'wrkout/login.html', {'error': "Your Wrkout account is disabled."})
         else:
             print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+            return render(request, 'wrkout/login.html', {'error': "Invalid login details supplied."})
     else:
         return render(request, 'wrkout/login.html')
 

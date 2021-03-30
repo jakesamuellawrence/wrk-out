@@ -191,7 +191,7 @@ button, input[type="submit"] {
     box-sizing: border-box;
 }
 
-h1 {
+h1, .error-message {
     margin: 10px;
 }
 
@@ -277,9 +277,14 @@ input[type="number"] {
     margin: 5px;
 }
 
-.indented {
+.indented, .errorlist {
     margin-left: var(--indent-size);
     margin-right: 60px;
+}
+
+.errorlist {
+    list-style: none;
+    color: var(--red1);
 }
 
 #demo-image-block img {
