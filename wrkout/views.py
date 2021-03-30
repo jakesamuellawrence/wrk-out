@@ -176,8 +176,18 @@ def create_workout(request):
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
         if form.is_valid():
-            form.save(commit=True)
-            return redirect('/wrkout/')
+            workout = form.save(commit=False)
+            workout.CreatorID = UserProfile.objects.get(UserID=request.user.id)
+            for k,v in request.POST.items():
+                if k != 'csrfmiddlewaretoken' or k != 'Name' or k != 'Description' or k != 'submit':
+                    print(k)
+                    exercise = Exercise.objects.get(Slug=k)
+                    print(exercise)
+                    print("/n")
+                    ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
+                    workout.Sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=v)
+            workout.save()
+            return redirect(reverse('wrkout:home'))
         else:
             print(form.errors)
             
@@ -189,8 +199,10 @@ def create_exercise(request):
     if request.method == 'POST':
         form = ExerciseForm(request.POST)
         if form.is_valid():
-            form.save(commit=True)
-            return redirect('/wrkout/')
+            exercise = form.save(commit=False)
+            exercise.CreatorID = UserProfile.objects.get(UserID=request.user.id)
+            exercise.save()
+            return redirect(reverse('wrkout:home'))
         else:
             print(form.errors)
             
