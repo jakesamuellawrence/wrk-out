@@ -8,6 +8,9 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('ProfilePicture',)
+        labels = {
+            'ProfilePicture': 'Profile picture'
+        }
 
 class WorkoutForm(forms.ModelForm):
     Description = forms.CharField(widget=forms.Textarea())
@@ -23,6 +26,13 @@ class ExerciseForm(forms.ModelForm):
     class Meta:
         model = Exercise
         fields = ('Name', 'Difficulty', 'Description', 'DemoImage', 'DemoVideo')
+        labels = {
+            'DemoImage': 'Demonstration image',
+            'DemoVideo': 'Demonstration video',
+        }
+        help_texts = {
+            'DemoVideo': 'Optional, but must be from youtube.com if used'
+        }
         
 class SetForm(forms.ModelForm):
     class Meta:

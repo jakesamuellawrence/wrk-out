@@ -174,6 +174,7 @@ def create_workout(request):
     exercises = Exercise.objects.order_by('Name')
     form = WorkoutForm()
     if request.method == 'POST':
+        print(request.POST)
         form = WorkoutForm(request.POST)
         if form.is_valid():
             workout = form.save(commit=False)
@@ -198,6 +199,7 @@ def create_workout(request):
 def create_exercise(request):
     form = ExerciseForm()
     if request.method == 'POST':
+        print(request.POST)
         form = ExerciseForm(request.POST)
         if form.is_valid():
             exercise = form.save(commit=False)

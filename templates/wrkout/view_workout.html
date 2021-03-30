@@ -7,7 +7,7 @@
 {% load staticfiles %}
 
 {% block specifics_block %}
-    {% if not result.CreatorID == logged_in_profile %}
+    {% if logged_in_profile and result.CreatorID != logged_in_profile %}
         {% if result in logged_in_profile.SavedWorkouts.all %}
             <a href="{% url 'wrkout:unsave_workout' result.Slug %}" class="indented button-container">
                 <button>Remove from collection</button>
@@ -17,7 +17,7 @@
                 <button>Save to collection</button>
             </a>
         {% endif %}
-    {% else %}
+    {% elif logged_in_profile == result.CreatorID %}
         <button class="indented important">Delete Workout</button>
     {% endif %}
     
