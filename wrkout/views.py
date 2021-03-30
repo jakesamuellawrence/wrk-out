@@ -172,19 +172,21 @@ def user_logout(request):
 @login_required    
 def create_workout(request):
     exercises = Exercise.objects.order_by('Name')
-
     form = WorkoutForm()
     if request.method == 'POST':
         form = WorkoutForm(request.POST)
         if form.is_valid():
             workout = form.save(commit=False)
             workout.CreatorID = UserProfile.objects.get(UserID=request.user.id)
+            workout.Date = timezone.now()
             workout.save()
             for k,v in request.POST.items():
                 if k != 'csrfmiddlewaretoken' and k != 'Name' and k != 'Description' and k != 'submit':
+                    print(k,v)
                     exercise = Exercise.objects.get(Slug=k)
                     ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
-                    sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=v)
+                    sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=int(v[0]))
+                    print(sets)
                     workout.Sets.add(sets)      
             return redirect(reverse('wrkout:home'))
         else:
