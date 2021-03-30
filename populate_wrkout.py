@@ -142,6 +142,24 @@ def populate():
                      {'username':'xXMuscleManXx',
                       'savedworkouts':["Our First Workout"]},]
 
+    likedexercises = [{'username':'TeamWrkOut',
+                       'exercises':['Squat','Pull Up','5km Run']},
+                      {'username':'CaptainMysterious',
+                       'exercises':['Push Up','Car Lift']},
+                      {'username':'CreativeUsernameHere',
+                       'exercises':['Star Jump','Push Up']},
+                      {'username':'xXMuscleManXx',
+                       'exercises':['Push Up']},]
+
+    likedworkouts = [{'username':'TeamWrkOut',
+                       'workouts':['Leg Day Burner','Cardio Extreme','Marine Entry']},
+                      {'username':'CaptainMysterious',
+                       'workouts':['Cardio Extreme','Leg Day Burner']},
+                      {'username':'CreativeUsernameHere',
+                       'workouts':['Our First Workout']},
+                      {'username':'xXMuscleManXx',
+                       'workouts':['Marine Entry']},]
+
     for user in useraccounts:
         add_user(user['username'],user['password'],user['email'], user['profilepicture'])
 
@@ -156,6 +174,12 @@ def populate():
 
     for savedworkout in savedworkouts:
         add_savedworkouts(savedworkout['username'],savedworkout['savedworkouts'])
+
+    for likedexercise in likedexercises:
+        add_likedexercises(likedexercise['username'],likedexercise['exercises'])
+
+    for likedworkout in likedworkouts:
+        add_likedworkouts(likedworkout['username'],likedworkout['workouts'])
     
     
 
@@ -224,7 +248,20 @@ def add_savedworkouts(username, savedworkouts):
     for workoutname in savedworkouts:
         savedworkout = Workout.objects.get(Name=workoutname)
         userprofile.SavedWorkouts.add(savedworkout)
-        
+
+def add_likedexercises(username, likedexercises):
+    useraccount = User.objects.get(username=username)
+    userprofile=UserProfile.objects.get(UserAccount=useraccount,UserID=useraccount.id)
+    for exercisename in likedexercises:
+        likedexercise = Exercise.objects.get(Name=exercisename)
+        userprofile.LikedExercises.add(likedexercise)
+
+def add_likedworkouts(username, likedworkouts):
+    useraccount = User.objects.get(username=username)
+    userprofile=UserProfile.objects.get(UserAccount=useraccount,UserID=useraccount.id)
+    for workoutname in likedworkouts:
+        likedworkout = Workout.objects.get(Name=workoutname)
+        userprofile.LikedWorkouts.add(likedworkout)
     
 
  
