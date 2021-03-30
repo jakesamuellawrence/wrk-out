@@ -1,7 +1,8 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from wrkout.models import User, Exercise, Workout, UserProfile
+from django.utils import timezone
+from wrkout.models import User, Exercise, Workout,Set, UserProfile
 from wrkout.forms import UserForm, ExerciseForm, WorkoutForm, UserProfileForm 
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
@@ -178,15 +179,13 @@ def create_workout(request):
         if form.is_valid():
             workout = form.save(commit=False)
             workout.CreatorID = UserProfile.objects.get(UserID=request.user.id)
-            for k,v in request.POST.items():
-                if k != 'csrfmiddlewaretoken' or k != 'Name' or k != 'Description' or k != 'submit':
-                    print(k)
-                    exercise = Exercise.objects.get(Slug=k)
-                    print(exercise)
-                    print("/n")
-                    ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
-                    workout.Sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=v)
             workout.save()
+            for k,v in request.POST.items():
+                if k != 'csrfmiddlewaretoken' and k != 'Name' and k != 'Description' and k != 'submit':
+                    exercise = Exercise.objects.get(Slug=k)
+                    ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
+                    sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=v)
+                    workout.Sets.add(sets)      
             return redirect(reverse('wrkout:home'))
         else:
             print(form.errors)
@@ -201,6 +200,7 @@ def create_exercise(request):
         if form.is_valid():
             exercise = form.save(commit=False)
             exercise.CreatorID = UserProfile.objects.get(UserID=request.user.id)
+            exercise.Date = timezone.now()
             exercise.save()
             return redirect(reverse('wrkout:home'))
         else:
