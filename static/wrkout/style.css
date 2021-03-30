@@ -339,6 +339,10 @@ ul {
     cursor: pointer;
 }
 
+#registered-successfully {
+    margin-left: 10px;
+}
+
 hr {
     margin-left: 10px;
     margin-right: 10px;

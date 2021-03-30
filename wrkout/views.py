@@ -120,7 +120,6 @@ def view_profile(request,username):
     return render(request, 'wrkout/view_profile.html', context_dict)
     
 def register(request):
-    registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
@@ -135,14 +134,15 @@ def register(request):
             if 'ProfilePicture' in request.FILES:
                 profile.ProfilePicture = request.FILES['ProfilePicture']
             profile.save()
-            registered = True
+
+            return render(request, 'wrkout/login.html', {'just_registered': True})
         else:
             print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request,'wrkout/register.html',context = {'user_form': user_form,'profile_form': profile_form,'registered': registered})
+    return render(request,'wrkout/register.html',context = {'user_form': user_form,'profile_form': profile_form,})
     
 def user_login(request):
 

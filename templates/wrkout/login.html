@@ -1,3 +1,8 @@
+<!--
+    expects as context:
+    just_registered - whether or not this page was shown just after registering
+    error - any errors that occurred when trying to log in
+-->
 {% extends 'wrkout/base.html' %}
 {% load staticfiles %}
 
@@ -6,6 +11,12 @@
 {% endblock %}
 
 {% block content_block %}
+    {% if just_registered %}
+        <p id="registered-successfully">
+            Account registered succesfully, you can log in below:
+        </p>
+    {% endif %}
+
     <form id="login-form" method="POST" action="{% url 'wrkout:login' %}">
         {% csrf_token %}
         <h1>Log In:</h1>
