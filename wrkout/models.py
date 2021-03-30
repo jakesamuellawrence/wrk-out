@@ -9,9 +9,11 @@ class UserProfile(models.Model):
     
     UserID = models.AutoField(primary_key=True)
     Slug = models.SlugField(unique=True, null=True)
-    SavedWorkouts = models.ManyToManyField('Workout', related_name='%(class)sSaved')
-    LikedWorkouts = models.ManyToManyField('Workout')
-    LikedExercises = models.ManyToManyField('Exercise')
+    SavedWorkouts = models.ManyToManyField('Workout', related_name='Saved%(class)s')
+    LikedWorkouts = models.ManyToManyField('Workout', related_name='Liked%(class)s')
+    LikedExercises = models.ManyToManyField('Exercise', related_name='Liked%(class)s')
+    DislikedWorkouts = models.ManyToManyField('Workout')
+    DislikedExercises = models.ManyToManyField('Exercise')
     ProfilePicture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
