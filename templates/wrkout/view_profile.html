@@ -22,7 +22,9 @@
         <h1>{{ profile.UserAccount.username }}</h1>
 
         {% if profile == logged_in_profile %}
-            <button>Edit Profile</button>
+            <a href="{% url 'wrkout:edit_profile' logged_in_profile.Slug %}" class="indented button-container">
+                <button>Edit</button>
+            </a>
         {% endif %}
     </div>
     <hr>

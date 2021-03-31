@@ -35,8 +35,8 @@ urlpatterns = [
     path('exercises/create/', views.create_exercise, name='create_exercise'),
     path('exercises/<slug:exercise_Name_Slug>/', views.show_exercise, name='show_exercise'),
     
-    #path('users/edit/', views.edit_profile, name='edit'),
     path('users/<slug:username>/', views.view_profile, name='profile'),
+    path('users/<slug:username>/edit', views.edit_profile, name='edit_profile'),
     
     
     # I commented some of the paths out, because their views dont exist yet, so

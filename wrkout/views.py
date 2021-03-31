@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils import timezone
 from wrkout.models import User, Exercise, Workout,Set, UserProfile
-from wrkout.forms import UserForm, ExerciseForm, WorkoutForm, UserProfileForm 
+from wrkout.forms import UserForm, ExerciseForm, WorkoutForm, UserProfileForm, EditUserForm, EditProfileForm
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -235,3 +235,37 @@ def unsave_workout(request, workout_Name_Slug):
     logged_in_profile.SavedWorkouts.remove(workout_to_unsave)
 
     return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
+
+@login_required
+def edit_profile(request, username):
+    try:
+        profile_to_edit = UserProfile.objects.get(UserAccount=request.user)
+    except UserProfile.DoesNotExist:
+        return HttpResponse("Trying to edit a profile that doesn't exist")
+
+    print(profile_to_edit.UserAccount == request.user)
+    
+    if request.method == 'POST':
+        user_form = EditUserForm(request.POST)
+        profile_form = EditProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            if request.POST['username']:
+                request.user.username = request.POST['username']
+            if request.POST['email']:
+                request.user.email = request.POST['email']
+            if request.POST['password']:
+                request.user.set_password(request.POST['password'])
+            if 'ProfilePicture' in request.FILES:
+                profile_to_edit.ProfilePicture = request.FILES['ProfilePicture']
+
+            request.user.save()
+            profile_to_edit.save()
+
+            return redirect(reverse('wrkout:profile', kwargs={'username': profile_to_edit.Slug}))
+        else:
+            return render(request, 'wrkout/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    else:
+        return render(request, 'wrkout/edit_profile.html', {
+            'user_form': EditUserForm(),
+            'profile_form': EditProfileForm(),
+        })
