@@ -183,11 +183,9 @@ def create_workout(request):
             workout.save()
             for k,v in request.POST.items():
                 if k != 'csrfmiddlewaretoken' and k != 'Name' and k != 'Description' and k != 'submit':
-                    print(k,v)
                     exercise = Exercise.objects.get(Slug=k)
                     ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
                     sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=int(v[0]))
-                    print(sets)
                     workout.Sets.add(sets)      
             return redirect(reverse('wrkout:home'))
         else:
