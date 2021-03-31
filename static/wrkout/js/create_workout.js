@@ -8,7 +8,8 @@ $(document).ready(function () {
         $("#selected-exercise-list").append(`
         <div class="selected-exercise-row">
             <a href="${exerciseHref}">${exerciseName}</a>
-            x <input type="number" min="1" name="${exerciseSlug}" value="1">
+            <input type="hidden" name="exerciseSlugs" value="${exerciseSlug}"/>
+            x <input type="number" min="1" name="NoOfReps" value="1">
             <img class="remove-exercise-button" src="${trashImgSource}">
         </div>
         `);
