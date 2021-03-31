@@ -181,12 +181,13 @@ def create_workout(request):
             workout.CreatorID = UserProfile.objects.get(UserID=request.user.id)
             workout.Date = timezone.now()
             workout.save()
-            for k,v in request.POST.items():
-                if k != 'csrfmiddlewaretoken' and k != 'Name' and k != 'Description' and k != 'submit':
-                    exercise = Exercise.objects.get(Slug=k)
-                    ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
-                    sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=int(v[0]))
-                    workout.Sets.add(sets)      
+            exerciseSlugs = request.POST.getlist('exerciseSlugs')
+            NoOfReps = request.POST.getlist('NoOfReps')
+            for i in range(0,len(exerciseSlugs)):
+                exercise = Exercise.objects.get(Slug=exerciseSlugs[i])
+                ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
+                sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=int(NoOfReps[i]))
+                workout.Sets.add(sets)      
             return redirect(reverse('wrkout:home'))
         else:
             print(form.errors)
@@ -203,6 +204,8 @@ def create_exercise(request):
             exercise = form.save(commit=False)
             exercise.CreatorID = UserProfile.objects.get(UserID=request.user.id)
             exercise.Date = timezone.now()
+            if 'DemoImage' in request.FILES:
+                exercise.DemoImage = request.FILES['DemoImage']
             exercise.save()
             return redirect(reverse('wrkout:home'))
         else:
