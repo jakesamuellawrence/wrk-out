@@ -73,7 +73,7 @@ class Workout(models.Model):
 
 class Set(models.Model):
     SetID = models.AutoField(primary_key=True)
-    ExerciseID = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    ExerciseID = models.ForeignKey(Exercise, null=True, on_delete=models.SET_NULL)
     NoOfReps = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     
     

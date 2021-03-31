@@ -6,9 +6,15 @@
 {% extends 'wrkout/view_exercise_or_workout_base.html' %}
 {% load staticfiles %}
 
+{% block js_block %}
+    <script src="{% static 'wrkout/js/view_exercise.js' %}"></script>
+{% endblock %}
+
 {% block specifics_block %}
+    {% include 'wrkout/delete_dialogue.html' %}
+
     {% if result.CreatorID == logged_in_profile %}
-        <button class="indented important">Delete Exercise</button>
+        <button class="important indented delete-button">Delete Exercise</button>
     {% endif %}
 
     <hr>

@@ -269,3 +269,12 @@ def edit_profile(request, username):
             'user_form': EditUserForm(),
             'profile_form': EditProfileForm(),
         })
+
+@login_required
+def delete_exercise(request, exercise_Name_Slug):
+    try:
+        Exercise.objects.get(Slug=exercise_Name_Slug).delete()
+    except Exercise.DoesNotExist:
+        return HttpResponse("Tried to delete and exercise that did not exist")
+
+    return redirect(reverse('wrkout:home'))

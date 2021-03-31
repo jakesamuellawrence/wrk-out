@@ -30,7 +30,11 @@
         <ul>
             {% for set in result.Sets.all %}
                 <li>
-                    <a href="{% url 'wrkout:show_exercise' set.ExerciseID.Slug %}">{{ set.ExerciseID.Name }}</a> x{{set.NoOfReps}}
+                    {% if set.ExerciseID %}
+                        <a href="{% url 'wrkout:show_exercise' set.ExerciseID.Slug %}">{{ set.ExerciseID.Name }}</a> x{{set.NoOfReps}}
+                    {% else %}
+                        <a href="{% url 'wrkout:show_exercise' 'deleted-exercise' %}">[deleted-exercise]</a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

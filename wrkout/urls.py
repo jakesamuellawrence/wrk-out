@@ -34,6 +34,7 @@ urlpatterns = [
     path('exercises/browse/difficulty/', views.browse_difficulty_exercises, name='exercises_difficulty'),
     path('exercises/create/', views.create_exercise, name='create_exercise'),
     path('exercises/<slug:exercise_Name_Slug>/', views.show_exercise, name='show_exercise'),
+    path('exercises/<slug:exercise_Name_Slug>/delete', views.delete_exercise, name='delete_exercise'),
     
     path('users/<slug:username>/', views.view_profile, name='profile'),
     path('users/<slug:username>/edit', views.edit_profile, name='edit_profile'),
