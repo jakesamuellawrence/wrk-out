@@ -136,7 +136,7 @@ def register(request):
                 profile.ProfilePicture = request.FILES['ProfilePicture']
             profile.save()
 
-            return render(request, 'wrkout/login.html', {'just_registered': True})
+            return redirect(reverse('wrkout:login'))
         else:
             print(user_form.errors, profile_form.errors)
     else:

@@ -21,8 +21,8 @@ class UserProfile(models.Model):
         return self.UserAccount.username
 
     def save(self, *args, **kwargs):
-        super(UserProfile, self).save(*args, **kwargs)
         self.Slug = slugify(self.UserAccount.username)
+        super(UserProfile, self).save(*args, **kwargs)
         try:
             profile_image = Image.open(self.ProfilePicture.path)
             if profile_image.width > profile_image.height:
