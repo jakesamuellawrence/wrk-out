@@ -358,7 +358,7 @@ ul {
     background-color: white;
     position: absolute;
     left: 50%;
-    top: 25%;
+    top: 33%;
     width: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
@@ -374,7 +374,7 @@ ul {
     margin-top: 10px;
 }
 
-button {
+button, .delete-button {
     cursor: pointer;
 }
 

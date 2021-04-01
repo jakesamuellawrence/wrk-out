@@ -11,7 +11,13 @@
     {{ profile.UserAccount.username }}
 {% endblock %}
 
+{% block js_block %}
+    <script src="{% static 'wrkout/js/view_profile.js' %}"></script>
+{% endblock %}
+
 {% block content_block %}
+    {% include 'wrkout/delete_dialogue.html' %}
+
     <div id="profile-header">
         {% if profile.ProfilePicture %}
             <img src="{{ profile.ProfilePicture.url }}">
@@ -35,7 +41,8 @@
             <h3 class="result-name">
                 <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
                 {% if profile == logged_in_profile %}
-                    <img src="{% static 'wrkout/images/trash.png' %}">
+                    <img class="delete-button" src="{% static 'wrkout/images/trash.png' %}" 
+                         data-href="{% url 'wrkout:show_workout' result.Slug %}">
                 {% endif %}
             </h3>
         
@@ -80,7 +87,8 @@
             <h3 class="result-name">
                 <a href="{% url 'wrkout:show_exercise' result.Slug %}">{{ result.Name }}</a>
                 {% if logged_in_profile == profile %}
-                    <img src="{% static 'wrkout/images/trash.png' %}">
+                    <img class="delete-button" src="{% static 'wrkout/images/trash.png' %}"
+                         data-href="{% url 'wrkout:show_exercise' result.Slug %}">
                 {% endif %}
             </h3>
         
