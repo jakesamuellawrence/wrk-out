@@ -21,22 +21,25 @@ class UserProfile(models.Model):
         return self.UserAccount.username
 
     def save(self, *args, **kwargs):
-        self.Slug = slugify(self.UserAccount.username)
         super(UserProfile, self).save(*args, **kwargs)
-        profile_image = Image.open(self.ProfilePicture.path)
-        if profile_image.width > profile_image.height:
-            left = (profile_image.width - profile_image.height)/2
-            right = (profile_image.width + profile_image.height)/2
-            top = 0
-            bottom = profile_image.height
-            profile_image = profile_image.crop((left, top, right, bottom))
-        elif profile_image.height > profile_image.width:
-            left = 0
-            right = profile_image.width
-            top = (profile_image.height - profile_image.width)/2
-            bottom = (profile_image.height + profile_image.width)/2
-            profile_image = profile_image.crop((left, top, right, bottom))
-        profile_image.save(self.ProfilePicture.path)
+        self.Slug = slugify(self.UserAccount.username)
+        try:
+            profile_image = Image.open(self.ProfilePicture.path)
+            if profile_image.width > profile_image.height:
+                left = (profile_image.width - profile_image.height)/2
+                right = (profile_image.width + profile_image.height)/2
+                top = 0
+                bottom = profile_image.height
+                profile_image = profile_image.crop((left, top, right, bottom))
+            elif profile_image.height > profile_image.width:
+                left = 0
+                right = profile_image.width
+                top = (profile_image.height - profile_image.width)/2
+                bottom = (profile_image.height + profile_image.width)/2
+                profile_image = profile_image.crop((left, top, right, bottom))
+            profile_image.save(self.ProfilePicture.path)
+        except:
+            pass
 
 
 
