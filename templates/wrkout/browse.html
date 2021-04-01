@@ -11,6 +11,12 @@
 {% endblock %}
 
 {% block content_block %}
+    {% if not results %}
+        <p class="indented">Sorry, nothing matched your search. 
+                            <a href="{% url 'wrkout:home' %}">Return to Homepage</a>
+        </p>
+    {% endif %}
+
     {% for result in results %}
         <div class="result-info-box">
             <h3 class="result-name">
