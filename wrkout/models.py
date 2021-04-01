@@ -42,7 +42,6 @@ class Exercise(models.Model):
     def save(self, *args, **kwargs):
         self.DemoVideo=self.DemoVideo.replace("watch?v=","embed/")
         self.Slug = slugify(self.Name)
-        self.Date = timezone.now()
         super(Exercise, self).save(*args, **kwargs)
 
 
@@ -66,7 +65,6 @@ class Workout(models.Model):
 
     def save(self, *args, **kwargs):
         self.Slug = slugify(self.Name)
-        self.Date = timezone.now()
         super(Workout, self).save(*args, **kwargs)
 
 
