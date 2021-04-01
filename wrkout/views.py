@@ -145,7 +145,6 @@ def register(request):
     return render(request,'wrkout/register.html',context = {'user_form': user_form,'profile_form': profile_form,})
     
 def user_login(request):
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -154,7 +153,8 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('wrkout:home'))
+                next_href = request.GET.get('next', reverse('wrkout:home'))
+                return redirect(next_href)
             else:
                 return render(request, 'wrkout/login.html', {'error': "Your Wrkout account is disabled."})
         else:
@@ -169,7 +169,7 @@ def user_logout(request):
     logout(request)
     return redirect(reverse('wrkout:home')) 
     
-@login_required    
+@login_required
 def create_workout(request):
     exercises = Exercise.objects.order_by('Name')
     form = WorkoutForm()

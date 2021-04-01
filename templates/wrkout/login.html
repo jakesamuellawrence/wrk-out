@@ -17,7 +17,7 @@
         </p>
     {% endif %}
 
-    <form id="login-form" method="POST" action="{% url 'wrkout:login' %}">
+    <form id="login-form" method="POST" action="{{ request.get_full_path }}">
         {% csrf_token %}
         <h1>Log In:</h1>
         {% if error %}
