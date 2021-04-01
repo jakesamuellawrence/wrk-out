@@ -132,6 +132,10 @@
         <div class="result-info-box">
             <h3 class="result-name">
                 <a href="{% url 'wrkout:show_workout' result.Slug %}">{{ result.Name }}</a>
+                {% if logged_in_profile == profile %}
+                    <img class="collection-remove-button" src="{% static 'wrkout/images/cross.png' %}"
+                         data-href="{% url 'wrkout:show_workout' result.Slug %}">   
+                {% endif %}
             </h3>
         
             <div class="result-details">

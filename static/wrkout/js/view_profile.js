@@ -26,4 +26,14 @@ $(document).ready(function() {
             }
         });
     });
+    $(".collection-remove-button").click(function() {
+        console.log("test!");
+        unsave_url = $(this).data("href") + "unsave";
+        $.ajax({
+            url: unsave_url,
+            success: function(response) {
+                window.location.href = window.location;
+            }
+        });
+    });
 });
