@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.utils.decorators import method_decorator
+import math
 
 # Create your views here.
 
@@ -174,8 +175,9 @@ def create_workout(request):
     exercises = Exercise.objects.order_by('Name')
     form = WorkoutForm()
     if request.method == 'POST':
-        print(request.POST)
         form = WorkoutForm(request.POST)
+        difficulty = 0
+        count = 0
         if form.is_valid():
             workout = form.save(commit=False)
             workout.CreatorID = UserProfile.objects.get(UserID=request.user.id)
@@ -185,9 +187,13 @@ def create_workout(request):
             NoOfReps = request.POST.getlist('NoOfReps')
             for i in range(0,len(exerciseSlugs)):
                 exercise = Exercise.objects.get(Slug=exerciseSlugs[i])
+                difficulty += exercise.Difficulty
+                count += 1
                 ExerciseID = Exercise.objects.get(ExerciseID=exercise.ExerciseID)
                 sets = Set.objects.create(ExerciseID=ExerciseID,NoOfReps=int(NoOfReps[i]))
-                workout.Sets.add(sets)      
+                workout.Sets.add(sets)
+            workout.Difficulty = math.floor(difficulty/count)
+            workout.save(update_fields = ['Difficulty'])
             return redirect(reverse('wrkout:home'))
         else:
             print(form.errors)

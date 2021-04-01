@@ -66,6 +66,7 @@ class Workout(models.Model):
     def save(self, *args, **kwargs):
         self.Slug = slugify(self.Name)
         super(Workout, self).save(*args, **kwargs)
+        
 
 
 
