@@ -276,6 +276,15 @@ def delete_exercise(request, exercise_Name_Slug):
     try:
         Exercise.objects.get(Slug=exercise_Name_Slug).delete()
     except Exercise.DoesNotExist:
-        return HttpResponse("Tried to delete and exercise that did not exist")
+        return HttpResponse("Tried to delete an exercise that did not exist")
 
-    return redirect(reverse('wrkout:home'))
+    return HttpResponse("Successful")
+
+@login_required
+def delete_workout(request, workout_Name_Slug):
+    try:
+        Workout.objects.get(Slug=workout_Name_Slug).delete()
+    except Workout.DoesNotExist:
+        return HttpResponse("Tried to delete an exercise that did not exist")
+
+    return HttpResponse("Successful")

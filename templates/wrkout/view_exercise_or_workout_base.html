@@ -9,7 +9,13 @@
     {{ result.Name }}
 {% endblock %}
 
+{% block js_block %}
+    <script src="{% static 'wrkout/js/view_exercise_or_workout.js' %}"></script>
+{% endblock %}
+
 {% block content_block %}
+    {% include 'wrkout/delete_dialogue.html' %}
+
     <h1>{{ result.Name }}</h1>
     <div id="info-block">
         <div class="details-difficulty">

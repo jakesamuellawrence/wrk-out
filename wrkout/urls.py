@@ -26,6 +26,7 @@ urlpatterns = [
     path('workouts/<slug:workout_Name_Slug>/', views.show_workout, name='show_workout'),
     path('workouts/<slug:workout_Name_Slug>/save', views.save_workout, name="save_workout"),
     path('workouts/<slug:workout_Name_Slug>/unsave', views.unsave_workout, name="unsave_workout"),
+    path('workouts/<slug:workout_Name_Slug>/delete', views.delete_workout, name="delete_workout"),
     
     path('exercises/', RedirectView.as_view(permanent=True, url="browse/popular")),
     path('exercises/browse/', RedirectView.as_view(permanent=True, url="popular")),
