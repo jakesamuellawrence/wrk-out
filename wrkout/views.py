@@ -274,17 +274,25 @@ def edit_profile(request, username):
 @login_required
 def delete_exercise(request, exercise_Name_Slug):
     try:
-        Exercise.objects.get(Slug=exercise_Name_Slug).delete()
+        exercise_to_delete = Exercise.objects.get(Slug=exercise_Name_Slug)
     except Exercise.DoesNotExist:
-        return HttpResponse("Tried to delete an exercise that did not exist")
+        return HttpResponse("Tried to delete an exercise that did not exist.")
 
-    return HttpResponse("Successful")
+    if (exercise_to_delete.CreatorID.UserAccount == request.user):
+        exercise_to_delete.delete()
+        return redirect(reverse('wrkout:home'))
+    else:
+        return HttpResponse("You do not have permission to delete this exercise")
 
 @login_required
 def delete_workout(request, workout_Name_Slug):
     try:
-        Workout.objects.get(Slug=workout_Name_Slug).delete()
+        workout_to_delete = Workout.objects.get(Slug=workout_Name_Slug)
     except Workout.DoesNotExist:
-        return HttpResponse("Tried to delete an exercise that did not exist")
+        return HttpResponse("Tried to delete an workout that did not exist")
 
-    return HttpResponse("Successful")
+    if (workout_to_delete.CreatorID.UserAccount == request.user):
+        workout_to_delete.delete()
+        return redirect(reverse('wrkout:home'))
+    else:
+        return HttpResponse("You do not have permission to delete this workout")
