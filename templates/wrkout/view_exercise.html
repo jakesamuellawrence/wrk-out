@@ -7,6 +7,34 @@
 {% load staticfiles %}
 
 {% block specifics_block %}
+    <div class="details-likes indented">
+        {% if result in logged_in_profile.LikedExercises.all %}    
+            <a href="{% url 'wrkout:unlike_exercise' result.Slug %}">
+                <img src="{% static 'wrkout/images/thumbs_up_filled.png' %}">
+            </a>
+        {% else %}
+            <a href="{% url 'wrkout:like_exercise' result.Slug %}">
+                <img src="{% static 'wrkout/images/thumbs_up_unfilled.png' %}">
+            </a>
+        {% endif %}
+
+        {% if result.Likes >= 0 %}
+            <span class="positive-likes">{{result.Likes}}</span>
+        {% else %}
+            <span class="negative-likes">{{result.Likes}}</span>
+        {% endif %}
+
+        {% if result in logged_in_profile.DislikedExercises.all %}
+            <a href="{% url 'wrkout:undislike_exercise' result.Slug %}">
+                <img src="{% static 'wrkout/images/thumbs_down_filled.png' %}">
+            </a>
+        {% else %}
+            <a href="{% url 'wrkout:dislike_exercise' result.Slug %}">
+                <img src="{% static 'wrkout/images/thumbs_down_unfilled.png' %}">
+            </a>
+        {% endif %}
+    </div>
+
     {% if result.CreatorID == logged_in_profile %}
         <button class="important indented delete-button">Delete Exercise</button>
     {% endif %}

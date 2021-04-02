@@ -310,14 +310,13 @@ def like_workout(request, workout_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
 
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.LikedWorkouts.add(workout_to_like)
-    
-    try:
+    if (workout_to_like not in logged_in_profile.LikedWorkouts.all()):
+        logged_in_profile.LikedWorkouts.add(workout_to_like)
+        workout_to_like.Likes += 1
+    if (workout_to_like in logged_in_profile.DislikedWorkouts.all()):
         logged_in_profile.DislikedWorkouts.remove(workout_to_like)
-    except:
-        pass
-    
-    workout_to_like.Likes += 1
+        workout_to_like.Likes += 1
+
     workout_to_like.save()
 
     return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
@@ -330,12 +329,12 @@ def unlike_workout(request, workout_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
     
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.LikedWorkouts.remove(workout_to_unlike)
-    
-    workout_to_unlike.Likes -= 1
-    workout_to_unlike.save()
 
+    if (workout_to_unlike in logged_in_profile.LikedWorkouts.all()):
+        logged_in_profile.LikedWorkouts.remove(workout_to_unlike)
+        workout_to_unlike.Likes -= 1
     
+    workout_to_unlike.save()
     return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
 
 @login_required
@@ -346,14 +345,14 @@ def dislike_workout(request, workout_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
 
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.DislikedWorkouts.add(workout_to_dislike)
-    workout_to_dislike.Likes -= 1
-    workout_to_dislike.save()
-
-    try:
+    if (workout_to_dislike not in logged_in_profile.DislikedWorkouts.all()):
+        logged_in_profile.DislikedWorkouts.add(workout_to_dislike)
+        workout_to_dislike.Likes -= 1
+    if (workout_to_dislike in logged_in_profile.LikedWorkouts.all()):
         logged_in_profile.LikedWorkouts.remove(workout_to_dislike)
-    except:
-        pass
+        workout_to_dislike.Likes -= 1
+
+    workout_to_dislike.save()
 
     return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
 
@@ -365,10 +364,11 @@ def undislike_workout(request, workout_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
     
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.DislikedWorkouts.remove(workout_to_undislike)
-    workout_to_undislike.Likes += 1
-    workout_to_undislike.save()
+    if (workout_to_undislike in logged_in_profile.DislikedWorkouts.all()):
+        logged_in_profile.DislikedWorkouts.remove(workout_to_undislike)
+        workout_to_undislike.Likes += 1
 
+    workout_to_undislike.save()
     
     return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
 
@@ -380,14 +380,13 @@ def like_exercise(request, exercise_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
 
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.LikedExercises.add(exercise_to_like)
-    
-    try:
+    if (exercise_to_like not in logged_in_profile.LikedExercises.all()):
+        logged_in_profile.LikedExercises.add(exercise_to_like)
+        exercise_to_like.Likes += 1
+    if (exercise_to_like in logged_in_profile.DislikedExercises.all()):
         logged_in_profile.DislikedExercises.remove(exercise_to_like)
-    except:
-        pass
+        exercise_to_like.Likes += 1
     
-    exercise_to_like.Likes += 1
     exercise_to_like.save()
 
     return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
@@ -400,12 +399,12 @@ def unlike_exercise(request, exercise_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
     
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.LikedExercises.remove(exercise_to_unlike)
-    
-    exercise_to_unlike.Likes -= 1
+    if (exercise_to_unlike in logged_in_profile.LikedExercises.all()):
+        logged_in_profile.LikedExercises.remove(exercise_to_unlike)
+        exercise_to_unlike.Likes -= 1
+        
     exercise_to_unlike.save()
 
-    
     return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
 
 @login_required
@@ -416,14 +415,14 @@ def dislike_exercise(request, exercise_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
 
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.DislikedExercises.add(exercise_to_dislike)
-    exercise_to_dislike.Likes -= 1
-    exercise_to_dislike.save()
-
-    try:
+    if (exercise_to_dislike not in logged_in_profile.DislikedExercises.all()):
+        logged_in_profile.DislikedExercises.add(exercise_to_dislike)
+        exercise_to_dislike.Likes -= 1
+    if (exercise_to_dislike in logged_in_profile.LikedExercises.all()):
         logged_in_profile.LikedExercises.remove(exercise_to_dislike)
-    except:
-        pass
+        exercise_to_dislike.Likes -= 1
+        
+    exercise_to_dislike.save()
 
     return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
 
@@ -435,9 +434,10 @@ def undislike_exercise(request, exercise_Name_Slug):
         return HttpResponse("Sorry, something went wrong!")
     
     logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
-    logged_in_profile.DislikedExercises.remove(exercise_to_undislike)
-    exercise_to_undislike.Likes += 1
-    exercise_to_undislike.save()
+    if (exercise_to_undislike in logged_in_profile.DislikedExercises.all()):
+        logged_in_profile.DislikedExercises.remove(exercise_to_undislike)
+        exercise_to_undislike.Likes += 1
 
+    exercise_to_undislike.save()
     
     return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
