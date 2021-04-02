@@ -301,3 +301,143 @@ def delete_workout(request, workout_Name_Slug):
         return redirect(reverse('wrkout:home'))
     else:
         return HttpResponse("You do not have permission to delete this workout")
+    
+@login_required
+def like_workout(request, workout_Name_Slug):
+    try:
+        workout_to_like = Workout.objects.get(Slug=workout_Name_Slug)
+    except Workout.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.LikedWorkouts.add(workout_to_like)
+    
+    try:
+        logged_in_profile.DislikedWorkouts.remove(workout_to_like)
+    except:
+        pass
+    
+    workout_to_like.Likes += 1
+    workout_to_like.save()
+
+    return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
+
+@login_required
+def unlike_workout(request, workout_Name_Slug):
+    try:
+        workout_to_unlike = Workout.objects.get(Slug=workout_Name_Slug)
+    except Workout.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+    
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.LikedWorkouts.remove(workout_to_unlike)
+    
+    workout_to_unlike.Likes -= 1
+    workout_to_unlike.save()
+
+    
+    return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
+
+@login_required
+def dislike_workout(request, workout_Name_Slug):
+    try:
+        workout_to_dislike = Workout.objects.get(Slug=workout_Name_Slug)
+    except Workout.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.DislikedWorkouts.add(workout_to_dislike)
+    workout_to_dislike.Likes -= 1
+    workout_to_dislike.save()
+
+    try:
+        logged_in_profile.LikedWorkouts.remove(workout_to_dislike)
+    except:
+        pass
+
+    return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
+
+@login_required
+def undislike_workout(request, workout_Name_Slug):
+    try:
+        workout_to_undislike = Workout.objects.get(Slug=workout_Name_Slug)
+    except Workout.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+    
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.DislikedWorkouts.remove(workout_to_undislike)
+    workout_to_undislike.Likes += 1
+    workout_to_undislike.save()
+
+    
+    return redirect(reverse('wrkout:show_workout', kwargs={'workout_Name_Slug': workout_Name_Slug}))
+
+@login_required
+def like_exercise(request, exercise_Name_Slug):
+    try:
+        exercise_to_like = Exercise.objects.get(Slug=exercise_Name_Slug)
+    except Exercise.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.LikedExercises.add(exercise_to_like)
+    
+    try:
+        logged_in_profile.DislikedExercises.remove(exercise_to_like)
+    except:
+        pass
+    
+    exercise_to_like.Likes += 1
+    exercise_to_like.save()
+
+    return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
+
+@login_required
+def unlike_exercise(request, exercise_Name_Slug):
+    try:
+        exercise_to_unlike = Exercise.objects.get(Slug=exercise_Name_Slug)
+    except Exercise.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+    
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.LikedExercises.remove(exercise_to_unlike)
+    
+    exercise_to_unlike.Likes -= 1
+    exercise_to_unlike.save()
+
+    
+    return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
+
+@login_required
+def dislike_exercise(request, exercise_Name_Slug):
+    try:
+        exercise_to_dislike = Exercise.objects.get(Slug=exercise_Name_Slug)
+    except Exercise.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.DislikedExercises.add(exercise_to_dislike)
+    exercise_to_dislike.Likes -= 1
+    exercise_to_dislike.save()
+
+    try:
+        logged_in_profile.LikedExercises.remove(exercise_to_dislike)
+    except:
+        pass
+
+    return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
+
+@login_required
+def undislike_exercise(request, exercise_Name_Slug):
+    try:
+        exercise_to_undislike = Exercise.objects.get(Slug=exercise_Name_Slug)
+    except Exercise.DoesNotExist:
+        return HttpResponse("Sorry, something went wrong!")
+    
+    logged_in_profile = UserProfile.objects.get(UserAccount=request.user)
+    logged_in_profile.DislikedExercises.remove(exercise_to_undislike)
+    exercise_to_undislike.Likes += 1
+    exercise_to_undislike.save()
+
+    
+    return redirect(reverse('wrkout:show_exercise', kwargs={'exercise_Name_Slug': exercise_Name_Slug}))
