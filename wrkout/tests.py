@@ -85,8 +85,12 @@ class Tests1(TestCase):
         create_workout_path = os.path.join(self.wrkout_templates_dir, 'create_workout.html')
         workout_or_exercise_path = os.path.join(self.wrkout_templates_dir, 'view_exercise_or_workout_base.html')
         create_exercise_path = os.path.join(self.wrkout_templates_dir, 'create_exercise.html')
-
-
+        edit_profile = os.path.join(self.wrkout_templates_dir, 'edit_profile.html')
+        missing_page = os.path.join(self.wrkout_templates_dir, 'missing_page.html')
+        view_profile = os.path.join(self.wrkout_templates_dir, 'view_profile.html')
+        delete_dialogue = os.path.join(self.wrkout_templates_dir, 'delete_dialogue.html')
+  
+    
 
         self.assertTrue(os.path.isfile(base_path), f"{FAILURE_HEADER}Your base.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
         self.assertTrue(os.path.isfile(browse_path), f"{FAILURE_HEADER}Your browse.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
@@ -97,7 +101,15 @@ class Tests1(TestCase):
         self.assertTrue(os.path.isfile(create_exercise_path), f"{FAILURE_HEADER}Your create_exercise.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
         self.assertTrue(os.path.isfile(exercise_path), f"{FAILURE_HEADER}Your view_exercise.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
         self.assertTrue(os.path.isfile(workout_or_exercise_path), f"{FAILURE_HEADER}Your view_exercise_or_workout_base.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
-                
+        self.assertTrue(os.path.isfile(edit_profile), f"{FAILURE_HEADER}Your edit_profile.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(missing_page), f"{FAILURE_HEADER}Your missing_page.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(view_profile), f"{FAILURE_HEADER}Your view_profile.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+        self.assertTrue(os.path.isfile(delete_dialogue), f"{FAILURE_HEADER}Your delete_dialogue.html template does not exist, or is in the wrong location.{FAILURE_FOOTER}")
+         
+        
+        
+        
+        
     def does_gitignore_include_database(self, path):
         """
         Takes the path to a .gitignore file, and checks to see whether the db.sqlite3 database is present in that file.
@@ -397,7 +409,7 @@ class ViewTests(TestCase):
         
         self.assertTrue('user_form' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'user_form' variable.{FAILURE_FOOTER}")
         self.assertTrue('profile_form' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'profile_form' variable.{FAILURE_FOOTER}")
-        self.assertTrue('registered' in register_content, f"{FAILURE_HEADER}The register() view context dictionary should have a 'registered' variable.{FAILURE_FOOTER}")
+        
         
         
     def test_views2(self): 
@@ -436,8 +448,43 @@ class ViewTests(TestCase):
         self.assertTrue('exercise_form' in ce_content, f"{FAILURE_HEADER}The create_exercise() view context dictionary should have a 'exercise_form' variable.{FAILURE_FOOTER}")
         self.assertEquals(type(ExerciseForm()), type(ce_context['exercise_form']), f"{FAILURE_HEADER}Your create_exercises() view does not pass a Exercise Form into its context dictionary{FAILURE_FOOTER}")
 
-          
+        #like/show/save workouts
         
+        populate()
+        
+        #workouts = Workout.objects.get(Name='Marine Entry')
+        #workout_slug = workouts.Slug
+        
+        show_workout = self.client.get('/workouts/marine-entry/')
+        show_workout_content = show_workout.content.decode()
+        
+        self.assertTemplateUsed(show_workout, 'wrkout/view_workout.html', f"{FAILURE_HEADER}Your show_workout() view does not use the expected wrkout/show_workout.html template.{FAILURE_FOOTER}")
+        self.assertTrue('result' in show_workout_content, f"{FAILURE_HEADER}The show_workout() view context dictionary should have a 'result' variable.{FAILURE_FOOTER}")
+        
+        like_workout = self.client.get('/workouts/marine-entry/like')
+        
+        self.assertEqual(like_workout.url, '/workouts/marine-entry/', f"{FAILURE_HEADER}Liking a workout should redirect to the URL of the workout itself.{FAILURE_FOOTER}")
+
+        save_workout = self.client.get('/workouts/marine-entry/save')
+        
+        self.assertEqual(save_workout.url, '/workouts/marine-entry/', f"{FAILURE_HEADER}Saving a workout should redirect to the URL of the workout itself.{FAILURE_FOOTER}")
+
+        #edit/view profile
+        
+        edit_profile = self.client.get('/users/testuser/edit')
+        edit_profile_content = edit_profile.content.decode()
+        
+        self.assertTemplateUsed(edit_profile, 'wrkout/edit_profile.html', f"{FAILURE_HEADER}Your edit_profile() view does not use the expected wrkout/edit_profile.html template.{FAILURE_FOOTER}")
+        self.assertTrue('user_form' in edit_profile_content, f"{FAILURE_HEADER}The edit_profile() view context dictionary should have a 'user_form' variable.{FAILURE_FOOTER}")
+        self.assertTrue('profile_form' in edit_profile_content, f"{FAILURE_HEADER}The edit_profile() view context dictionary should have a 'profile_form' variable.{FAILURE_FOOTER}")
+        
+        view_profile = self.client.get('/users/testuser/')
+        view_profile_content = view_profile.content.decode()
+        
+        self.assertTemplateUsed(view_profile, 'wrkout/view_profile.html', f"{FAILURE_HEADER}Your view_profile() view does not use the expected wrkout/view_profile.html template.{FAILURE_FOOTER}")
+        self.assertTrue('profile' in view_profile_content, f"{FAILURE_HEADER}The view_profile() view context dictionary should have a 'profile' variable.{FAILURE_FOOTER}")
+        self.assertTrue('created_workouts' in view_profile_content, f"{FAILURE_HEADER}The view_profile() view context dictionary should have a 'created_workouts' variable.{FAILURE_FOOTER}")
+        self.assertTrue('created_exercises' in view_profile_content, f"{FAILURE_HEADER}The view_profile() view context dictionary should have a 'created_exercises' variable.{FAILURE_FOOTER}")
         
         
         
